@@ -1,28 +1,23 @@
 {
   "name": "intuision",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "client:dev": "yarn workspace client dev",
+    "client:build": "yarn workspace client build",
+    "client:lint": "yarn workspace client lint",
+    "client:preview": "yarn workspace client preview",
+    "server:dev": "yarn workspace server dev",
+    "server:build": "yarn workspace server build",
+    "server:start": "yarn workspace server start",
+    "dev": "concurrently \"yarn client:dev\" \"yarn server:dev\"",
+    "build": "yarn client:build && yarn server:build"
   },
   "devDependencies": {
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "concurrently": "^6.2.0"
   }
 }
