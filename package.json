@@ -15,9 +15,13 @@
     "server:build": "yarn workspace server build",
     "server:start": "yarn workspace server start",
     "dev": "concurrently \"yarn client:dev\" \"yarn server:dev\"",
-    "build": "yarn client:build && yarn server:build"
+    "build": "yarn client:build && yarn server:build",
+    "format": "yarn prettier --write \"**/*.{js,ts,jsx,tsx,json}\""
   },
   "devDependencies": {
     "concurrently": "^6.2.0"
+  },
+  "dependencies": {
+    "prettier": "^3.3.1"
   }
 }
