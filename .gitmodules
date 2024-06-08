@@ -1,0 +1,3 @@
+[submodule "client/book-data"]
+	path = client/book-data
+	url = https://github.com/essence-learning/book-data.git
