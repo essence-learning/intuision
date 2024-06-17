@@ -1,9 +1,10 @@
-import React from "react";
+import Scene from "../components/articles/Scene";
 
 const Home = () => {
   return (
     <div>
-      <h1>intuision</h1>
+      <h1 className="font-bold">intuision</h1>
+      <Scene />
       <p>"length" -lebron</p>
     </div>
   );
