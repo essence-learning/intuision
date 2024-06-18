@@ -6,6 +6,8 @@ dotenv.config();
 import express, { Request, Response } from "express";
 import * as mongoose from "mongoose";
 import User, { IUser } from "./models/User";
+import path from 'path';
+import fs from 'fs';
 
 const mongoURI = process.env.MONGO_CONNECTION_URI || "";
 
@@ -49,6 +51,20 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/lebron", (req: Request, res: Response) => {
   res.send("put your balls in my mouth");
+});
+
+app.get("/book/:bookName", (req: Request, res: Response) => {
+  const bookName = req.params.bookName;
+  const filePath = path.join(__dirname, 'books', '${bookName}.json');
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(404).send('Book not found');
+    }
+
+    const foundBook = JSON.parse(data);
+    res.json(foundBook);
+  });
 });
 
 app.listen(port, () => {
