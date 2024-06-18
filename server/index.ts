@@ -55,7 +55,9 @@ app.get("/lebron", (req: Request, res: Response) => {
 
 app.get("/book/:bookName", (req: Request, res: Response) => {
   const bookName = req.params.bookName;
-  const filePath = path.join(__dirname, 'books', '${bookName}.json');
+  const filePath = path.join(__dirname, 'books', `${bookName}.json`);
+
+  console.log(`${bookName} at ${filePath}`);
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {

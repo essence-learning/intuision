@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/book/:filename" element={<Article />} />
+        <Route path="/book/:bookName" element={<Article />} />
       </Routes>
     </Router>
   );

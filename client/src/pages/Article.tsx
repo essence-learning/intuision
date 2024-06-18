@@ -8,7 +8,7 @@ import { Flex, Tabs, Box, Heading } from "@radix-ui/themes";
 import ControlPanel from "@/components/articles/ControlPanel";
 import NavBar from "@/components/NavBar";
 
-const Article = () => {
+const Article: React.FC = () => {
   return (
     <Flex height="100vh" m="0" p="0" width="100%" direction="column">
       <NavBar />
