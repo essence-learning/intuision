@@ -1,4 +1,4 @@
-import { ScrollArea } from "@radix-ui/themes";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
   AccordionContent,
@@ -7,9 +7,14 @@ import {
 } from "@/components/ui/accordion";
 
 const ControlPanel = () => {
+  //maybe change this to native radix scroll because style's slightly different
   return (
-    <ScrollArea className="border-t border-b h-full" size="2" radius="full">
-      <Accordion type="single" collapsible>
+    <ScrollArea className="border-b w-full h-full pr-3 p-2">
+      <Accordion
+        type="single"
+        collapsible
+        className="hover:bg-[#555555] rounded-sm"
+      >
         <AccordionItem value="item-1" className="px-4 border-0">
           <AccordionTrigger>Section</AccordionTrigger>
           <AccordionContent>Subsection</AccordionContent>
