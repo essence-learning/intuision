@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
@@ -91,6 +93,20 @@ const RecursiveFileSystem = (files: Files, prefix: string, shift: number) => {
 };
 
 const ControlPanel: React.FC = () => {
+  const { bookName } = useParams<{ bookName: string }>();
+  const [book, setBook] = useState<Book | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/book/${bookName}`)
+      .then((response) => response.json())
+      .then((data) => setBook(data))
+      .catch((err) => console.error("Some error: ", err));
+  }, [bookName]);
+
+  if (!book) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ScrollArea className="border-b w-full h-full">
       <Box className="p-4">{RecursiveFileSystem(test_toc, "", 0)}</Box>

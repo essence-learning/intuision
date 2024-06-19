@@ -11,7 +11,7 @@ import NavBar from "@/components/NavBar";
 import { useRef, useState } from "react";
 import Scene from "@/components/articles/Scene";
 
-const Article = () => {
+const Article: React.FC = () => {
   //  const [activeArticle, setActiveArticle] = useState(NULL);
 
   //All this stuff here is for dealing with split screening
@@ -25,7 +25,6 @@ const Article = () => {
     setSplitVert(true);
     //if (splitScreen) setActive
   };
-
   return (
     <Flex height="100vh" m="0" p="0" width="100%" direction="column">
       <NavBar />
