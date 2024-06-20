@@ -11,39 +11,62 @@ import { Flex, Box } from "@radix-ui/themes";
 import { BookmarkIcon } from "@radix-ui/react-icons";
 import React from "react";
 
-type Files = { [key: string]: Files | string[] };
+interface Book {
+  title: string;
+  sections: Section[];
+}
 
-const test_toc: Files = {
-  Kinematics: {
-    "1D": {
-      "Ch1.1.1": ["a", "b", "c"],
-    },
-    "2D": {
-      "Ch1.2.1": ["a", "b", "c"],
-    },
-  },
-  Dynamics: {
-    "Newton's First Law": {
-      "Ch2.1.1": ["a", "b", "c"],
-    },
-    "Newton's Second Law": {
-      "Ch2.2.1": ["a", "b", "c"],
-    },
-  },
-  Dynamics2: {
-    "Newton's First Law": {
-      "Ch2.1.1": ["a", "b", "c"],
-    },
-    "Newton's Second Law": {
-      "Ch2.2.1": ["a", "b", "c"],
-    },
-  },
-};
+// interface Section {
+//   id: number;
+//   title: string;
+// }
 
-const FileList = (files: string[], prefix: string, shift: number) => {
+interface Section {
+  id: number;
+  title: string;
+  subsections: Section[] | Files[];
+}
+
+interface File {
+  id: number;
+  title: string;
+}
+
+// interface Files {
+//   [key:]
+// }
+
+// const test_toc: toc = {
+//   Kinematics: {
+//     "1D": {
+//       "Ch1.1.1": ["a", "b", "c"],
+//     },
+//     "2D": {
+//       "Ch1.2.1": ["a", "b", "c"],
+//     },
+//   },
+//   Dynamics: {
+//     "Newton's First Law": {
+//       "Ch2.1.1": ["a", "b", "c"],
+//     },
+//     "Newton's Second Law": {
+//       "Ch2.2.1": ["a", "b", "c"],
+//     },
+//   },
+//   Dynamics2: {
+//     "Newton's First Law": {
+//       "Ch2.1.1": ["a", "b", "c"],
+//     },
+//     "Newton's Second Law": {
+//       "Ch2.2.1": ["a", "b", "c"],
+//     },
+//   },
+// };
+
+const FileList = (files: File[], prefix: string, shift: number) => {
   return (
     <Flex direction="column" justify="start" align="start">
-      {files.map((title, index) => (
+      {files.map((sec, index) => (
         <button
           key={`${prefix}${index}`}
           className={`w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer pl-${shift} text-left`}
@@ -53,7 +76,7 @@ const FileList = (files: string[], prefix: string, shift: number) => {
         >
           <Flex align="center">
             <BookmarkIcon className="mx-1" />
-            {`${prefix}${index + 1}. ${title}`}
+            {`${prefix}${index + 1} ${sec.title}`}
           </Flex>
         </button>
       ))}
@@ -61,27 +84,35 @@ const FileList = (files: string[], prefix: string, shift: number) => {
   );
 };
 
-const RecursiveFileSystem = (files: Files, prefix: string, shift: number) => {
+const RecursiveFileSystem = (
+  files: Section[],
+  prefix: string,
+  shift: number,
+) => {
   return (
     <Accordion type="multiple">
-      {Object.keys(files).map((title, index) => (
+      {files.map((sec, index) => (
         <AccordionItem
           key={`${prefix}${index}`}
-          value={`Chapter ${prefix}${index + 1}.`}
+          value={`Chapter ${prefix}${index + 1}`}
         >
           {/* for some reason the left padding below only triggers in some cases */}
-          <AccordionTrigger className={`pl-${shift}`}>
-            {`${prefix}${index + 1}. ${title}`}
+          <AccordionTrigger>
+            <div className={`pl-${shift}`}>
+              {`${prefix}${index + 1}. ${sec.title}`}
+            </div>
           </AccordionTrigger>
           <AccordionContent>
-            {!Array.isArray(files[title])
+            {/* checks if it's last depth to recurse */}
+            {files[index].subsections.length > 0 &&
+            files[index].subsections[0].subsections
               ? RecursiveFileSystem(
-                  files[title] as Files,
+                  files[index].subsections as Section[],
                   `${prefix}${index + 1}.`,
                   shift + 3,
                 )
               : FileList(
-                  files[title] as string[],
+                  files[index].subsections as File[],
                   `${prefix}${index + 1}.`,
                   shift + 3,
                 )}
@@ -109,7 +140,7 @@ const ControlPanel: React.FC = () => {
 
   return (
     <ScrollArea className="border-b w-full h-full">
-      <Box className="p-4">{RecursiveFileSystem(test_toc, "", 0)}</Box>
+      <Box className="p-4">{RecursiveFileSystem(book.sections, "", 0)}</Box>
     </ScrollArea>
   );
 };
