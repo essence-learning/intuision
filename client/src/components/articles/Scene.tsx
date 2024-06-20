@@ -1,14 +1,15 @@
 import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { Flex, Box } from "@radix-ui/themes";
+import { Flex, Box, Button } from "@radix-ui/themes";
 
 interface SceneProps {
   in_article: boolean;
   caption: string;
+  onExpand: () => void;
 }
 
-const Scene: React.FC<SceneProps> = ({ in_article, caption }) => {
+const Scene: React.FC<SceneProps> = ({ in_article, caption, onExpand }) => {
   const ref = useRef<any>();
 
   return (
@@ -27,6 +28,7 @@ const Scene: React.FC<SceneProps> = ({ in_article, caption }) => {
       </Box>
       <Box maxWidth="20%">
         <p>{caption}</p>
+        <Button onClick={onExpand}>Expand</Button>
       </Box>
     </Flex>
   );
