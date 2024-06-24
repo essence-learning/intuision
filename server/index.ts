@@ -6,8 +6,8 @@ dotenv.config();
 import express, { Request, Response } from "express";
 import * as mongoose from "mongoose";
 import User, { IUser } from "./models/User";
-import path from "path";
-import fs from "fs";
+
+import apiRoutes from "./routes/api";
 
 const mongoURI = process.env.MONGO_CONNECTION_URI || "";
 
@@ -53,21 +53,7 @@ app.get("/lebron", (req: Request, res: Response) => {
   res.send("put your balls in my mouth");
 });
 
-app.get("/api/book/:bookName", (req: Request, res: Response) => {
-  const bookName = req.params.bookName;
-  const filePath = path.join(__dirname, "books", `${bookName}.json`);
-
-  console.log(`${bookName} at ${filePath}`);
-
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      return res.status(404).send("Book not found");
-    }
-
-    const foundBook = JSON.parse(data);
-    res.json(foundBook);
-  });
-});
+app.use("/api", apiRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

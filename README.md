@@ -25,6 +25,7 @@ The .env file should look like:
 
 ```js
 MONGO_CONNECTION_URI = "mongodb+srv://<stuff>";
+ANTHROPIC_API_KEY = "asdf";
 ```
 
 ## blah blah
