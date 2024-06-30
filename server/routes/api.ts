@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 
+import { bundleMDX } from 'mdx-bundler';
 import { generateHaiku } from "../llms/gen_text";
 
 const router = express.Router();
@@ -24,6 +25,24 @@ router.get("/book/:bookName", (req: Request, res: Response) => {
     const foundBook = JSON.parse(data);
     res.json(foundBook);
   });
+});
+
+router.get('/article/:bookName/:fileName', async (req, res) => {
+  const { bookName, fileName } = req.params;
+  const filePath = path.join(__dirname, `../books/${bookName}/content/`, `${fileName}.mdx`);
+  if (fs.existsSync(filePath)) {
+    const mdxContent = fs.readFileSync(filePath, 'utf-8');
+    
+    try {
+      const { code, frontmatter } = await bundleMDX({ source: mdxContent });
+      res.json({ code, frontmatter });
+    } catch (error) {
+      console.error('Error processing MDX file:', error);
+      res.status(500).json({ error: 'Error processing MDX file' });
+    }
+  } else {
+    res.status(404).json({ error: 'MDX file not found' });
+  }
 });
 
 router.get("/haiku", async (req: Request, res: Response) => {

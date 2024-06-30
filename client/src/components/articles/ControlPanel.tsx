@@ -48,13 +48,18 @@ const getFontSize = (shift: number) => {
   }
 };
 
+interface ControlPanelProps {
+  onPageSelect: (bookName: string, pageId: string) => void;
+}
+
 const RecursiveFileSystem = (
   current: BookLayer,
   prefix: string,
   shift: number,
+  bookName: string,
+  onPageSelect: (bookName: string, pageId: string) => void
 ) => {
   let localIndex = 1;
-
   return (
     <Accordion type="multiple" className="mb-2">
       <AccordionItem key={`${prefix}`} value={`Chapter ${prefix}`}>
@@ -74,9 +79,7 @@ const RecursiveFileSystem = (
                 key={`${prefix}${currentIndex}`}
                 className="w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer text-left mb-1"
                 style={{ paddingLeft: `${shift * 20}px` }}
-                onClick={() => {
-                  console.log("test");
-                }}
+                onClick={() => onPageSelect(bookName, page.id)}
               >
                 <Flex align="center">
                   <BookmarkIcon className="mx-1" />
@@ -89,7 +92,7 @@ const RecursiveFileSystem = (
             const currentIndex = localIndex++;
             return (
               <React.Fragment key={`${prefix}${currentIndex}`}>
-                {RecursiveFileSystem(sub, `${prefix}${currentIndex}.`, shift + 1)}
+                {RecursiveFileSystem(sub, `${prefix}${currentIndex}.`, shift + 1, bookName, onPageSelect)}
               </React.Fragment>
             );
           })}
@@ -100,7 +103,7 @@ const RecursiveFileSystem = (
 };
 
 
-const ControlPanel: React.FC = () => {
+const ControlPanel: React.FC<ControlPanelProps> = ({ onPageSelect }) => {
   const { bookName } = useParams<{ bookName: string }>();
   const [book, setBook] = useState<BookLayer | null>(null);
 
@@ -111,13 +114,15 @@ const ControlPanel: React.FC = () => {
       .catch((err) => console.error("Some error: ", err));
   }, [bookName]);
 
-  if (!book) {
+  if (!book || !bookName) {
     return <div>Loading...</div>;
   }
 
   return (
     <ScrollArea className="border-b w-full h-full">
-      <Box className="p-4">{RecursiveFileSystem(book, "", 0)}</Box>
+      <Box className="p-4">
+        {RecursiveFileSystem(book, "", 0, bookName, onPageSelect)}
+      </Box>
     </ScrollArea>
   );
 };
