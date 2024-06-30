@@ -22,6 +22,32 @@ interface BookLayer {
   subsections: BookLayer[];
 }
 
+const getFontWeight = (shift: number) => {
+  switch (shift) {
+    case 0:
+      return 'font-bold';
+    case 1:
+      return 'font-semibold';
+    case 2:
+      return 'font-medium';
+    default:
+      return 'font-normal';
+  }
+};
+
+const getFontSize = (shift: number) => {
+  switch (shift) {
+    case 0:
+      return 'text-lg';
+    case 1:
+      return 'text-base';
+    case 2:
+      return 'text-sm';
+    default:
+      return 'text-xs';
+  }
+};
+
 const RecursiveFileSystem = (
   current: BookLayer,
   prefix: string,
@@ -30,10 +56,13 @@ const RecursiveFileSystem = (
   let localIndex = 1;
 
   return (
-    <Accordion type="multiple">
+    <Accordion type="multiple" className="mb-2">
       <AccordionItem key={`${prefix}`} value={`Chapter ${prefix}`}>
-        <AccordionTrigger>
-          <div className={`pl-${shift}`}>
+        <AccordionTrigger className="text-left">
+          <div
+            className={`pl-${shift * 4} ${getFontWeight(shift)} ${getFontSize(shift)}`}
+            style={{ paddingLeft: `${shift * 10}px` }}
+          >
             {`${prefix} ${current.title}`}
           </div>
         </AccordionTrigger>
@@ -43,7 +72,8 @@ const RecursiveFileSystem = (
             return (
               <button
                 key={`${prefix}${currentIndex}`}
-                className={`w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer pl-${shift} text-left`}
+                className="w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer text-left mb-1"
+                style={{ paddingLeft: `${shift * 20}px` }}
                 onClick={() => {
                   console.log("test");
                 }}
