@@ -12,7 +12,7 @@ router.get("/", (req: Request, res: Response) => {
 
 router.get("/book/:bookName", (req: Request, res: Response) => {
   const bookName = req.params.bookName;
-  const filePath = path.join(__dirname, "../books", `${bookName}.json`);
+  const filePath = path.join(__dirname, `../books/${bookName}/`, "toc.json");
 
   console.log(`${bookName} at ${filePath}`);
 

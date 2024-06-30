@@ -6,8 +6,8 @@ const Home = () => {
     <div>
       <h1 className="font-bold">intuision</h1>
       <p>"length" -lebron</p>
-      <Link to="/book/apphysics1" className="text-blue-500 hover:underline">
-      ap physics 1
+      <Link to="/book/Physics" className="text-blue-500 hover:underline">
+      OpenStax Physics
       </Link>
       <br />
       <Link to="/book/lebron" className="text-blue-500 hover:underline">
