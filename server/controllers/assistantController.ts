@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import TextService from "../services/textService";
 
-// export const getChatHistory = async (req: Request, res: Response) => {
-//   try {
-//     const conversationId = req.conversationId;
-//     const history = await ChatService.getHistory(userId);
-//     res.json(history);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to retrieve chat history" });
-//   }
-// };
+export const getChatHistory = async (req: Request, res: Response) => {
+  try {
+    console.log("SUCCESS");
+    const conversationId = req.query.conversationId as string;
+    const history = await TextService.getChatHistory(conversationId);
+    console.log("SUCCESS");
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve chat history" });
+  }
+};
 
 export const sendMessage = async (req: Request, res: Response) => {
   try {

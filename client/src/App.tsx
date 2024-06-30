@@ -11,7 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/book/:bookName" element={<Article />} />
-        <Route path="/chatting" element={<Chatting />} />
+        <Route path="/chatting/:conversationId" element={<Chatting />} />
+        <Route path="/chatting/" element={<Chatting />} />
       </Routes>
     </Router>
   );

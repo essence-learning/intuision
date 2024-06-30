@@ -7,10 +7,28 @@ const anthropic = new Anthropic();
 class TextService {
   constructor() {}
 
+  //TODO: complete this and hook it up to the controller and routes
+  async getChatHistory(conversationId: string) {
+    try {
+      const conversation: IConversation | null =
+        await Conversation.findById(conversationId);
+      if (!conversation) {
+        throw new Error("Conversation not found");
+      } else {
+        return conversation.messages;
+      }
+    } catch (error) {
+      console.error("Error querying chat history:", error);
+      throw new Error("Failed to retrieve chat history");
+    }
+  }
+
   async sendMessage(conversationId: string | null, message: string) {
     console.log("API REQUEST MADE IT!");
     try {
-      if (conversationId === null) {
+      console.log(conversationId);
+      if (!conversationId) {
+        console.log("balaoj;asldf");
         const newConversation = new Conversation({
           messages: [],
         });
@@ -18,7 +36,9 @@ class TextService {
 
         //TODO: fix this typescript shit
         conversationId = newConversation._id;
+        console.log(newConversation._id);
       }
+      console.log(conversationId);
       const conversation: IConversation | null =
         await Conversation.findById(conversationId);
       if (!conversation) {
@@ -29,7 +49,7 @@ class TextService {
         console.log("Conversation:", conversation.messages);
 
         const response = await anthropic.messages.create({
-          model: "claude-3-5-sonnet-20240620",
+          model: "claude-3-haiku-20240307",
           max_tokens: 1000,
           temperature: 0,
           system:

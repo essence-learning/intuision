@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { Button } from "@radix-ui/themes";
 import * as Label from "@radix-ui/react-label";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,7 +14,33 @@ interface Message {
 const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [conversationId, setConversationId] = useState<string | null>(null);
+  const { conversationId } = useParams<{ conversationId: string }>();
+
+  const navigate = useNavigate();
+
+  const getMessages = async () => {
+    try {
+      if (!conversationId) return;
+      const response = await fetch(
+        `/api/assistant/history?conversationId=${encodeURIComponent(conversationId)}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setMessages(data);
+    } catch (error) {
+      console.error("Error getting messages:", error);
+    }
+  };
 
   const sendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -45,7 +72,7 @@ const ChatBot: React.FC = () => {
         { role: "assistant", content: data.response },
       ]);
       if (!conversationId) {
-        setConversationId(data.conversationId);
+        navigate(`/chatting/${data.conversationId}`);
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -63,6 +90,11 @@ const ChatBot: React.FC = () => {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
   }, [messages]);
+
+  //on load get chat history
+  useEffect(() => {
+    if (conversationId) getMessages();
+  }, [conversationId, navigate]);
 
   return (
     <div className="flex flex-col h-screen max-w-2xl mx-auto p-4">
