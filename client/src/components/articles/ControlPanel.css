@@ -1,7 +1,0 @@
-.section-hover {
-  transition: background-color 0.3s ease;
-}
-
-.section-hover:hover {
-  background-color: #f0f0f0;
-}

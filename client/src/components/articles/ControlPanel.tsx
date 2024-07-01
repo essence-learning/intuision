@@ -1,148 +1,118 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Flex, Box } from "@radix-ui/themes";
-import { BookmarkIcon } from "@radix-ui/react-icons";
-import React from "react";
+import { Group, ScrollArea, NavLink } from '@mantine/core';
+import classes from './ControlPanel.module.css';
 
-interface Book {
-  title: string;
-  sections: Section[];
-}
-
-// interface Section {
-//   id: number;
-//   title: string;
-// }
-
-interface Section {
-  id: number;
-  title: string;
-  subsections: Section[] | Files[];
-}
-
-interface File {
-  id: number;
+interface Page {
+  id: string;
   title: string;
 }
 
-// interface Files {
-//   [key:]
-// }
+interface BookLayer {
+  title: string;
+  pages: Page[];
+  subsections: BookLayer[];
+}
 
-// const test_toc: toc = {
-//   Kinematics: {
-//     "1D": {
-//       "Ch1.1.1": ["a", "b", "c"],
-//     },
-//     "2D": {
-//       "Ch1.2.1": ["a", "b", "c"],
-//     },
-//   },
-//   Dynamics: {
-//     "Newton's First Law": {
-//       "Ch2.1.1": ["a", "b", "c"],
-//     },
-//     "Newton's Second Law": {
-//       "Ch2.2.1": ["a", "b", "c"],
-//     },
-//   },
-//   Dynamics2: {
-//     "Newton's First Law": {
-//       "Ch2.1.1": ["a", "b", "c"],
-//     },
-//     "Newton's Second Law": {
-//       "Ch2.2.1": ["a", "b", "c"],
-//     },
-//   },
-// };
+interface ControlPanelProps {
+  onPageSelect: (bookName: string, pageId: string) => void;
+}
 
-const FileList = (files: File[], prefix: string, shift: number) => {
+interface LinksGroupProps {
+  data: BookLayer;
+  shift: number;
+  bookName: string;
+  onPageSelect: (bookName: string, pageId: string) => void;
+  isTopLevel?: boolean;
+}
+
+
+const LinksGroup: React.FC<LinksGroupProps> = ({ data, shift = 0, bookName, onPageSelect, isTopLevel = false }) => {
+  const [opened, setOpened] = useState(false);
+
+  const pageLinks = data.pages.map((page) => {
+    return (
+      <NavLink
+        key={`${page.title}`}
+        label={`${page.title}`}
+        className={isTopLevel ? classes.topLevelLink : classes.pageLink}
+        onClick={() => onPageSelect(bookName, page.id)}
+      />
+    );
+  });
+
+  const subLinks = data.subsections.map((sub) => {
+    return (
+      <LinksGroup
+        key={`${bookName}`}
+        data={sub}
+        shift={shift + 1}
+        bookName={bookName}
+        onPageSelect={onPageSelect}
+      />
+    );
+  });
+
+  if (isTopLevel) {
+    return (
+      <>
+        {pageLinks}
+        {subLinks}
+      </>
+    );
+  }
+
   return (
-    <Flex direction="column" justify="start" align="start">
-      {files.map((sec, index) => (
-        <button
-          key={`${prefix}${index}`}
-          className={`w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer pl-${shift} text-left`}
-          onClick={() => {
-            console.log("test");
-          }}
-        >
-          <Flex align="center">
-            <BookmarkIcon className="mx-1" />
-            {`${prefix}${index + 1} ${sec.title}`}
-          </Flex>
-        </button>
-      ))}
-    </Flex>
+    <NavLink
+      label={`${data.title}`}
+      opened={opened}
+      onChange={(o) => setOpened(o)}
+      fw="bold"
+      className={classes.sectionLink}
+    >
+      {pageLinks}
+      {subLinks}
+    </NavLink>
   );
 };
 
-const RecursiveFileSystem = (
-  files: Section[],
-  prefix: string,
-  shift: number,
-) => {
-  return (
-    <Accordion type="multiple">
-      {files.map((sec, index) => (
-        <AccordionItem
-          key={`${prefix}${index}`}
-          value={`Chapter ${prefix}${index + 1}`}
-        >
-          {/* for some reason the left padding below only triggers in some cases */}
-          <AccordionTrigger>
-            <div className={`pl-${shift}`}>
-              {`${prefix}${index + 1}. ${sec.title}`}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {/* checks if it's last depth to recurse */}
-            {files[index].subsections.length > 0 &&
-            files[index].subsections[0].subsections
-              ? RecursiveFileSystem(
-                  files[index].subsections as Section[],
-                  `${prefix}${index + 1}.`,
-                  shift + 3,
-                )
-              : FileList(
-                  files[index].subsections as File[],
-                  `${prefix}${index + 1}.`,
-                  shift + 3,
-                )}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  );
-};
-
-const ControlPanel: React.FC = () => {
+export function ControlPanel({ onPageSelect }: ControlPanelProps) {
   const { bookName } = useParams<{ bookName: string }>();
-  const [book, setBook] = useState<Book | null>(null);
+  const [book, setBook] = useState<BookLayer | null>(null);
 
   useEffect(() => {
-    fetch(`/api/book/${bookName}`)
-      .then((response) => response.json())
-      .then((data) => setBook(data))
-      .catch((err) => console.error("Some error: ", err));
+    if (bookName) {
+      fetch(`/api/book/${bookName}`)
+        .then((response) => response.json())
+        .then((data: BookLayer) => setBook(data))
+        .catch((err) => console.error("Some error: ", err));
+    }
   }, [bookName]);
 
-  if (!book) {
+  if (!book || !bookName) {
     return <div>Loading...</div>;
   }
 
   return (
-    <ScrollArea className="border-b w-full h-full">
-      <Box className="p-4">{RecursiveFileSystem(book.sections, "", 0)}</Box>
-    </ScrollArea>
+    <nav className={classes.navbar}>
+      <div className={classes.header}>
+        <Group justify="space-between">
+          <h1>{bookName}</h1>
+        </Group>
+      </div>
+      <ScrollArea className={classes.links}>
+        <div className={classes.linksInner}>
+          <LinksGroup
+            data={book}
+            shift={0}
+            bookName={bookName}
+            onPageSelect={onPageSelect}
+            isTopLevel={true}
+          />
+        </div>
+      </ScrollArea>
+    </nav>
   );
-};
+}
 
 export default ControlPanel;
