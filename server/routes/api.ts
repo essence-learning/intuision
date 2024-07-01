@@ -2,8 +2,11 @@ import express, { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 
+
 import { bundleMDX } from 'mdx-bundler';
-import { generateHaiku } from "../llms/gen_text";
+
+import assistantRoutes from "./assistantRoutes";
+import { generateHaiku } from "../services/textService";
 
 const router = express.Router();
 
@@ -53,5 +56,7 @@ router.get("/haiku", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to generate haiku" });
   }
 });
+
+router.use("/assistant", assistantRoutes);
 
 export default router;
