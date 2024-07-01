@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Flex, Box } from "@radix-ui/themes";
-import { BookmarkIcon } from "@radix-ui/react-icons";
-import React from "react";
+import { Group, ScrollArea, NavLink } from '@mantine/core';
+import classes from './ControlPanel.module.css';
 
 interface Page {
   id: string;
@@ -26,66 +18,80 @@ interface ControlPanelProps {
   onPageSelect: (bookName: string, pageId: string) => void;
 }
 
-const RecursiveFileSystem = (
-  current: BookLayer,
-  prefix: string,
-  shift: number,
-  bookName: string,
-  onPageSelect: (bookName: string, pageId: string) => void
-) => {
+interface LinksGroupProps {
+  data: BookLayer;
+  prefix: string;
+  shift: number;
+  bookName: string;
+  onPageSelect: (bookName: string, pageId: string) => void;
+  isTopLevel?: boolean;
+}
+
+
+const LinksGroup: React.FC<LinksGroupProps> = ({ data, prefix = "", shift = 0, bookName, onPageSelect, isTopLevel = false }) => {
+  const [opened, setOpened] = useState(false);
   let localIndex = 1;
+
+  const pageLinks = data.pages.map((page) => {
+    const currentIndex = localIndex++;
+    return (
+      <NavLink
+        key={`${prefix}${currentIndex}`}
+        label={`${prefix}${currentIndex}. ${page.title}`}
+        className={isTopLevel ? classes.topLevelLink : classes.pageLink}
+        onClick={() => onPageSelect(bookName, page.id)}
+      />
+    );
+  });
+
+  const subLinks = data.subsections.map((sub) => {
+    const currentIndex = localIndex++;
+    return (
+      <LinksGroup
+        key={`${prefix}${currentIndex}`}
+        data={sub}
+        prefix={`${prefix}${currentIndex}.`}
+        shift={shift + 1}
+        bookName={bookName}
+        onPageSelect={onPageSelect}
+      />
+    );
+  });
+
+  if (isTopLevel) {
+    return (
+      <>
+        {pageLinks}
+        {subLinks}
+      </>
+    );
+  }
+
   return (
-    <Accordion type="multiple" className="mb-2">
-      <AccordionItem key={`${prefix}`} value={`Chapter ${prefix}`}>
-        <AccordionTrigger className="text-left">
-          <div
-            className={`pl-${shift * 4}`}
-            style={{ paddingLeft: `${shift * 10}px` }}
-          >
-            {`${prefix} ${current.title}`}
-          </div>
-        </AccordionTrigger>
-        <AccordionContent>
-          {current.pages.map((page) => {
-            const currentIndex = localIndex++;
-            return (
-              <button
-                key={`${prefix}${currentIndex}`}
-                className="w-full rounded-sm hover:bg-[#282828] hover:cursor-pointer text-left mb-1"
-                style={{ paddingLeft: `${shift * 30}px` }}
-                onClick={() => onPageSelect(bookName, page.id)}
-              >
-                <Flex align="center">
-                  <BookmarkIcon className="mx-1" />
-                  {`${prefix}${currentIndex}. ${page.title}`}
-                </Flex>
-              </button>
-            );
-          })}
-          {current.subsections.map((sub) => {
-            const currentIndex = localIndex++;
-            return (
-              <React.Fragment key={`${prefix}${currentIndex}`}>
-                {RecursiveFileSystem(sub, `${prefix}${currentIndex}.`, shift + 1, bookName, onPageSelect)}
-              </React.Fragment>
-            );
-          })}
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <NavLink
+      label={`${prefix} ${data.title}`}
+      opened={opened}
+      onChange={(o) => setOpened(o)}
+      fw="bold"
+      className={classes.sectionLink}
+    >
+      {pageLinks}
+      {subLinks}
+    </NavLink>
   );
 };
 
-
-const ControlPanel: React.FC<ControlPanelProps> = ({ onPageSelect }) => {
+export function ControlPanel({ onPageSelect }: ControlPanelProps) {
   const { bookName } = useParams<{ bookName: string }>();
   const [book, setBook] = useState<BookLayer | null>(null);
 
   useEffect(() => {
-    fetch(`/api/book/${bookName}`)
-      .then((response) => response.json())
-      .then((data) => setBook(data))
-      .catch((err) => console.error("Some error: ", err));
+    if (bookName) {
+      fetch(`/api/book/${bookName}`)
+        .then((response) => response.json())
+        .then((data: BookLayer) => setBook(data))
+        .catch((err) => console.error("Some error: ", err));
+    }
   }, [bookName]);
 
   if (!book || !bookName) {
@@ -93,12 +99,26 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onPageSelect }) => {
   }
 
   return (
-    <ScrollArea className="border-b w-full h-full">
-      <Box className="p-4">
-        {RecursiveFileSystem(book, "", 0, bookName, onPageSelect)}
-      </Box>
-    </ScrollArea>
+    <nav className={classes.navbar}>
+      <div className={classes.header}>
+        <Group justify="space-between">
+          <h1>{bookName}</h1>
+        </Group>
+      </div>
+      <ScrollArea className={classes.links}>
+        <div className={classes.linksInner}>
+          <LinksGroup
+            data={book}
+            prefix=""
+            shift={0}
+            bookName={bookName}
+            onPageSelect={onPageSelect}
+            isTopLevel={true}
+          />
+        </div>
+      </ScrollArea>
+    </nav>
   );
-};
+}
 
 export default ControlPanel;

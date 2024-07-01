@@ -1,15 +1,15 @@
 import React from 'react';
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Flex } from "@radix-ui/themes";
+
 import { getMDXComponent } from 'mdx-bundler/client';
+import { ScrollArea, Box, Flex, TypographyStylesProvider } from '@mantine/core';
+
 // import Scene from "./Scene";
 
 interface ArticleContentProps {
   content?: string;
-  onExpand: () => void;
 }
 
-const ArticleContent: React.FC<ArticleContentProps> = ({ content, onExpand }) => {
+const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
   const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
 
   React.useEffect(() => {
@@ -25,10 +25,10 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content, onExpand }) =>
   }, [content]);
 
   return (
-    <ScrollArea className="w-full h-full">
-      <Flex justify="center" p="8" py="6">
-        <div className="max-w-4xl w-full prose prose-lg prose-headings:font-bold prose-p:mt-0 prose-p:mb-4">
-          <Flex direction="column" align="start" justify="start">
+    <ScrollArea>
+      <Flex justify="center" align="center" style={{ minHeight: '100%' }}>
+        <Box w={'50%'}>
+          <TypographyStylesProvider>
             {content ? (
               Component ? (
                 <Component />
@@ -38,9 +38,8 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content, onExpand }) =>
             ) : (
               <p>Select an article to view content.</p>
             )}
-            <button onClick={onExpand} className="mt-4">Expand</button>
-          </Flex>
-        </div>
+          </TypographyStylesProvider>
+        </Box>
       </Flex>
     </ScrollArea>
   );

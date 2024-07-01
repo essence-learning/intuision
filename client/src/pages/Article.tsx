@@ -1,32 +1,17 @@
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { AppShell } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+
 import ArticleContent from "@/components/articles/ArticleContent";
-import { Flex, Box, Heading, Button } from "@radix-ui/themes";
-// import { Tabs } from "@radix-ui/themes";
 import ControlPanel from "@/components/articles/ControlPanel";
-import NavBar from "@/components/NavBar";
-import { useRef, useState } from "react";
-import Scene from "@/components/articles/Scene";
+// import NavBar from "@/components/NavBar";
+
+import { useState } from "react";
+// import Scene from "@/components/articles/Scene";
 
 const Article: React.FC = () => {
   const [mdxContent, setMdxContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // All this stuff here is for dealing with split screening
-  const [activeScene, setActiveScene] = useState(null);
-  const [splitVert, setSplitVert] = useState(false);
-  const [splitHorizontal, setSplitHorizontal] = useState(false);
-
-  const handleExpand = () => {
-    console.log(splitHorizontal);
-    setSplitHorizontal(true);
-    setSplitVert(true);
-    //if (splitScreen) setActive
-  };
 
   const handlePageSelect = async (bookName: string, pageId: string) => {
     setIsLoading(true);
@@ -45,30 +30,31 @@ const Article: React.FC = () => {
     }
   };
 
+  const [opened, { toggle }] = useDisclosure();
+
   return (
-    <Flex height="100vh" m="0" p="0" width="100%" direction="column">
-      <NavBar />
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="h-full w-full border-t"
-      >
-        <ResizablePanel defaultSize={20}>
-          <Flex direction="column" align="start" justify="end" height="100%">
-            <ControlPanel onPageSelect={handlePageSelect} />
-          </Flex>
-        </ResizablePanel>
-        <ResizableHandle withHandle={false} />
-        <ResizablePanel>
-          <Box width="100%" height="100%">
-            {isLoading && <p>Loading...</p>}
-            {error && <p className="error">{error}</p>}
-            {mdxContent && (
-              <ArticleContent content={mdxContent} onExpand={handleExpand} />
-            )}
-          </Box>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </Flex>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      padding="md"
+    >
+      <AppShell.Header>
+
+      </AppShell.Header>
+      <AppShell.Navbar p="md">
+        <ControlPanel onPageSelect={handlePageSelect} />
+      </AppShell.Navbar>
+
+      <AppShell.Main>
+        <div>
+          {isLoading && <p>Loading...</p>}
+          {error && <p className="error">{error}</p>}
+          {mdxContent && (
+            <ArticleContent content={mdxContent} />
+          )}
+        </div>
+      </AppShell.Main>
+    </AppShell>
   );
 };
 
