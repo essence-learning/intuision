@@ -25,20 +25,22 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content, onExpand }) =>
   }, [content]);
 
   return (
-    <ScrollArea className="w-full h-full bg-[#181818]">
+    <ScrollArea className="w-full h-full">
       <Flex justify="center" p="8" py="6">
-        <Flex direction="column" align="start" justify="start">
-          {content ? (
-            Component ? (
-              <Component />
+        <div className="max-w-4xl w-full prose prose-lg prose-headings:font-bold prose-p:mt-0 prose-p:mb-4">
+          <Flex direction="column" align="start" justify="start">
+            {content ? (
+              Component ? (
+                <Component />
+              ) : (
+                <p>Processing content...</p>
+              )
             ) : (
-              <p>Processing content...</p>
-            )
-          ) : (
-            <p>Select an article to view content.</p>
-          )}
-          <button onClick={onExpand} className="mt-4">Expand</button>
-        </Flex>
+              <p>Select an article to view content.</p>
+            )}
+            <button onClick={onExpand} className="mt-4">Expand</button>
+          </Flex>
+        </div>
       </Flex>
     </ScrollArea>
   );
