@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 
 import ArticleContent from "@/components/articles/ArticleContent";
 import ControlPanel from "@/components/articles/ControlPanel";
-// import NavBar from "@/components/NavBar";
+import NavBar from "@/components/NavBar";
 
 import { useState } from "react";
 // import Scene from "@/components/articles/Scene";
@@ -39,7 +39,7 @@ const Article: React.FC = () => {
       padding="md"
     >
       <AppShell.Header>
-
+        <NavBar />
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <ControlPanel onPageSelect={handlePageSelect} />

@@ -20,7 +20,6 @@ interface ControlPanelProps {
 
 interface LinksGroupProps {
   data: BookLayer;
-  prefix: string;
   shift: number;
   bookName: string;
   onPageSelect: (bookName: string, pageId: string) => void;
@@ -28,16 +27,14 @@ interface LinksGroupProps {
 }
 
 
-const LinksGroup: React.FC<LinksGroupProps> = ({ data, prefix = "", shift = 0, bookName, onPageSelect, isTopLevel = false }) => {
+const LinksGroup: React.FC<LinksGroupProps> = ({ data, shift = 0, bookName, onPageSelect, isTopLevel = false }) => {
   const [opened, setOpened] = useState(false);
-  let localIndex = 1;
 
   const pageLinks = data.pages.map((page) => {
-    const currentIndex = localIndex++;
     return (
       <NavLink
-        key={`${prefix}${currentIndex}`}
-        label={`${prefix}${currentIndex}. ${page.title}`}
+        key={`${page.title}`}
+        label={`${page.title}`}
         className={isTopLevel ? classes.topLevelLink : classes.pageLink}
         onClick={() => onPageSelect(bookName, page.id)}
       />
@@ -45,12 +42,10 @@ const LinksGroup: React.FC<LinksGroupProps> = ({ data, prefix = "", shift = 0, b
   });
 
   const subLinks = data.subsections.map((sub) => {
-    const currentIndex = localIndex++;
     return (
       <LinksGroup
-        key={`${prefix}${currentIndex}`}
+        key={`${bookName}`}
         data={sub}
-        prefix={`${prefix}${currentIndex}.`}
         shift={shift + 1}
         bookName={bookName}
         onPageSelect={onPageSelect}
@@ -69,7 +64,7 @@ const LinksGroup: React.FC<LinksGroupProps> = ({ data, prefix = "", shift = 0, b
 
   return (
     <NavLink
-      label={`${prefix} ${data.title}`}
+      label={`${data.title}`}
       opened={opened}
       onChange={(o) => setOpened(o)}
       fw="bold"
@@ -109,7 +104,6 @@ export function ControlPanel({ onPageSelect }: ControlPanelProps) {
         <div className={classes.linksInner}>
           <LinksGroup
             data={book}
-            prefix=""
             shift={0}
             bookName={bookName}
             onPageSelect={onPageSelect}
