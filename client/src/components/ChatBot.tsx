@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { Button } from "@radix-ui/themes";
-import * as Label from "@radix-ui/react-label";
+// import { Button } from "@radix-ui/themes";
+// import * as Label from "@radix-ui/react-label";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Message {
