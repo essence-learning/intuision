@@ -1,22 +1,45 @@
 //Rewrite this entire file -- it's only for testing back end stuff.
 
-import React, { useState, useEffect } from "react";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
-// import { Button } from "@radix-ui/themes";
-// import * as Label from "@radix-ui/react-label";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Paper,
+  ScrollArea,
+  TextInput,
+  Button,
+  Group,
+  Flex,
+  useMantineTheme,
+} from "@mantine/core";
+
 import { useNavigate, useParams } from "react-router-dom";
+
+import { ArrowUp } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const ChatBot: React.FC = () => {
+interface ChatBotProps {
+  propId?: string | null;
+  priorText?: string;
+}
+
+//TODO: disgusting style fix it.
+
+const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const { conversationId } = useParams<{ conversationId: string }>();
+  // const { conversationId } = useParams<{ conversationId: string }>();
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const theme = useMantineTheme();
 
-  const navigate = useNavigate();
+  const textInput = useRef<HTMLInputElement>(null);
+
+  //focus on mount
+  useEffect(() => {
+    textInput.current?.focus();
+  }, []);
 
   const getMessages = async () => {
     try {
@@ -55,8 +78,15 @@ const ChatBot: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        //TODO: add two additional fields: one for priorText (perhaps only send on the first query) and then one for type of query?
+        //Though, the type of query could be processed on the back-end (heard of some functional recognition stuff that could be used for this)
         body: JSON.stringify({
-          message: inputMessage,
+          message: conversationId
+            ? inputMessage
+            : "The following set of questions refer to this text that the user highlighted: " +
+              priorText +
+              ". Now here is their query:" +
+              inputMessage,
           conversationId: conversationId,
         }),
       });
@@ -72,7 +102,7 @@ const ChatBot: React.FC = () => {
         { role: "assistant", content: data.response },
       ]);
       if (!conversationId) {
-        navigate(`/chatting/${data.conversationId}`);
+        setConversationId(data.conversationId);
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -94,55 +124,62 @@ const ChatBot: React.FC = () => {
   //on load get chat history
   useEffect(() => {
     if (conversationId) getMessages();
-  }, [conversationId, navigate]);
+  }, [conversationId]);
+
+  //initial load
+  useEffect(() => {
+    if (propId) {
+      setConversationId(propId);
+    }
+  }, []);
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Physics ChatBot</h1>
-      <ScrollArea.Root className="flex-grow mb-4 border rounded-md">
-        <ScrollArea.Viewport className="h-full p-4 ScrollAreaViewport">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`mb-2 ${msg.role === "user" ? "text-right" : "text-left"}`}
-            >
-              <span
-                className={`inline-block p-2 rounded-lg ${
-                  msg.role === "user"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-black"
-                }`}
-              >
-                {msg.content}
-              </span>
-            </div>
-          ))}
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar orientation="vertical">
-          <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-      </ScrollArea.Root>
-      <div className="flex">
-        <Label.Root className="sr-only" htmlFor="chat-input">
-          Enter your message
-        </Label.Root>
-        <input
-          id="chat-input"
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-grow border rounded-l-md p-2"
+    <Flex
+      direction="column"
+      align-items="center"
+      justify="space-between"
+      h="100%"
+      style={{ backgroundColor: theme.colors.gray[0] }}
+    >
+      <ScrollArea style={{ flex: 1, marginBottom: theme.spacing.md }}>
+        {messages.map((msg, index) => (
+          <Paper
+            key={index}
+            p="xs"
+            mb="xs"
+            radius="lg"
+            style={{
+              float: msg.role === "user" ? "right" : "left",
+              clear: "both",
+              maxWidth: "80%",
+              backgroundColor:
+                msg.role === "user"
+                  ? theme.colors.blue[5]
+                  : theme.colors.gray[2],
+              color: msg.role === "user" ? theme.white : theme.black,
+            }}
+          >
+            {msg.content}
+          </Paper>
+        ))}
+      </ScrollArea>
+      <Group gap={0}>
+        <TextInput
+          ref={textInput}
           placeholder="Type your message..."
+          value={inputMessage}
+          onChange={(event) => setInputMessage(event.currentTarget.value)}
+          style={{ flex: 1 }}
         />
         <Button
           onClick={sendMessage}
-          className="bg-blue-500 text-white p-2 rounded-r-md"
+          color="blue"
+          style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
         >
-          Send
+          <ArrowUp size={18} />
         </Button>
-      </div>
-    </div>
+      </Group>
+    </Flex>
   );
 };
 

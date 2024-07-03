@@ -5,16 +5,16 @@ import { BsStars } from "react-icons/bs";
 interface SelectionPopupProps {
   x: number;
   y: number;
-  onEdit: () => void;
-  onCopy: () => void;
+  onAI: () => void;
+  onHighlight: () => void;
   onComment: () => void;
 }
 
 const SelectionPopup: React.FC<SelectionPopupProps> = ({
   x,
   y,
-  onEdit,
-  onCopy,
+  onAI,
+  onHighlight,
   onComment,
 }) => {
   return (
@@ -33,12 +33,12 @@ const SelectionPopup: React.FC<SelectionPopupProps> = ({
     >
       <Group gap="0px" dir="horizontal">
         <Tooltip label="Ask AI to explain, animate, or re-word" position="top">
-          <Button leftSection={<BsStars />} variant="subtle" onClick={onEdit}>
+          <Button leftSection={<BsStars />} variant="subtle" onClick={onAI}>
             Ask AI
           </Button>
         </Tooltip>
         <Tooltip label="Highlight selected text" position="top">
-          <Button variant="subtle" onClick={onCopy}>
+          <Button variant="subtle" onClick={onHighlight}>
             <Highlighter size={16} />
           </Button>
         </Tooltip>

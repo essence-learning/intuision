@@ -4,12 +4,16 @@ import { getMDXComponent } from "mdx-bundler/client";
 import {
   ScrollArea,
   Box,
+  Stack,
+  Title,
   Flex,
   Group,
   TypographyStylesProvider,
 } from "@mantine/core";
 import SelectionPopup from "./SelectionPopup";
 import CommentSideBar from "./comments/CommentSideBar";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import ChatBot from "../ChatBot";
 
 // import Scene from "./Scene";
 
@@ -36,7 +40,13 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
 
   //Handling the comment side bar
   const [showComments, setShowComments] = React.useState(false);
+  const [showChatBot, setShowChatBot] = React.useState(false);
 
+  /**
+   * TODO: un-hard code comment threads (just writing some mongo storage stuff
+   * TOODO: figure out a spacing solution (probably can just do on front end -- 
+  every coment thread has a minimum top value and just gets pusehd down if necessary)
+   */
   const testThreads = [
     {
       id: "1",
@@ -82,13 +92,16 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
 
   //Handling text selection pop-up
   const [selectedText, setSelectedText] = React.useState("");
+  const [showPopup, setShowPopup] = React.useState(false);
   const [selectionCoords, setSelectionCoords] = React.useState({ x: 0, y: 0 });
   const textBoxRef = useRef<HTMLDivElement>(null);
+  const [chatBotPrior, setChatBotPrior] = React.useState<string>("");
 
   const handleTextSelection = () => {
     const selection = window.getSelection();
     if (selection && selection.toString().trim().length > 0) {
       setSelectedText(selection.toString());
+      setShowPopup(true);
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
 
@@ -129,6 +142,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
       !(event.target as HTMLElement).closest(".mantine-Paper-root")
     ) {
       setSelectedText("");
+      setShowPopup(false);
     }
   };
 
@@ -141,40 +155,75 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
 
   return (
     <ScrollArea>
-      <Flex
-        justify="center"
-        align="center"
-        style={{ minHeight: "100%", position: "relative" }}
-        ref={textBoxRef}
-      >
-        <Group gap="xs" justify="center">
-          <Box w={"50%"}>
-            <TypographyStylesProvider>
-              {content ? (
-                Component ? (
-                  <Component />
-                ) : (
-                  <p>Processing content...</p>
-                )
-              ) : (
-                <p>Select an article to view content.</p>
-              )}
-            </TypographyStylesProvider>
-            {selectedText && (
-              <SelectionPopup
-                x={selectionCoords.x}
-                y={selectionCoords.y}
-                onEdit={() => {}}
-                onCopy={() => {}}
-                onComment={() => {
-                  setShowComments(true);
-                }}
-              />
-            )}
-          </Box>
-          {showComments && <CommentSideBar threads={testThreads} />}
-        </Group>
-      </Flex>
+      <PanelGroup direction="horizontal">
+        <Panel defaultSize={80} minSize={60}>
+          <Flex
+            justify="center"
+            align="center"
+            style={{ height: "100%", position: "relative" }}
+            ref={textBoxRef}
+          >
+            <Group gap="xs" justify="center">
+              <Box w={"50vw"}>
+                <TypographyStylesProvider>
+                  {content ? (
+                    Component ? (
+                      <Component />
+                    ) : (
+                      <p>Processing content...</p>
+                    )
+                  ) : (
+                    <p>Select an article to view content.</p>
+                  )}
+                </TypographyStylesProvider>
+                {showPopup && (
+                  <SelectionPopup
+                    x={selectionCoords.x}
+                    y={selectionCoords.y}
+                    onAI={() => {
+                      setShowPopup(false);
+                      setShowChatBot(true);
+                      setChatBotPrior(selectedText);
+                      setShowComments(false);
+                    }}
+                    onHighlight={() => {}}
+                    onComment={() => {
+                      setShowPopup(false);
+                      setShowComments(true);
+                    }}
+                  />
+                )}
+              </Box>
+              {showComments && <CommentSideBar threads={testThreads} />}
+            </Group>
+          </Flex>
+        </Panel>
+
+        {showChatBot && (
+          <>
+            <PanelResizeHandle />
+            <Panel
+              defaultSize={30}
+              minSize={30}
+              maxSize={40}
+              className="border-l"
+            >
+              <Flex justify="center">
+                <Stack
+                  gap="md"
+                  h="90vh"
+                  p="md"
+                  className="fixed"
+                  style={{ top: "10vh" }}
+                >
+                  <Title>AI Assistant</Title>
+                  <ChatBot propId={null} priorText={chatBotPrior} />
+                </Stack>
+              </Flex>
+            </Panel>
+          </>
+        )}
+      </PanelGroup>
     </ScrollArea>
   );
 };
