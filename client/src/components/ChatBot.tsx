@@ -25,7 +25,7 @@ interface ChatBotProps {
   priorText?: string;
 }
 
-//TODO: disgusting style fix it.
+//TODO: disgusting style -- fix it.
 
 const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -37,6 +37,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
   const textInput = useRef<HTMLInputElement>(null);
 
   //focus on mount
+  //TODO: maintain the text selection / highlighting when user is using chat box -- though idk if this is possible in web...
   useEffect(() => {
     textInput.current?.focus();
   }, []);
