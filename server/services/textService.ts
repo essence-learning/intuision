@@ -75,31 +75,3 @@ class TextService {
 }
 
 export default new TextService();
-
-// export async function generateHaiku(): Promise<string> {
-//   try {
-//     // Dynamically import LlamaAI
-
-//     const response = await anthropic.messages.create({
-//       model: "claude-3-opus-20240229",
-//       max_tokens: 1000,
-//       temperature: 0,
-//       system: "Respond only with haiku-style poems.",
-//       messages: [
-//         {
-//           role: "user",
-//           content: [
-//             {
-//               type: "text",
-//               text: "Why is the ocean salty?",
-//             },
-//           ],
-//         },
-//       ],
-//     });
-//     return response.content[0].type === "text" ? response.content[0].text : "";
-//   } catch (error) {
-//     console.error("Error querying LLM API:", error);
-//     throw new Error("Failed to generate haiku");
-//   }
-// }
