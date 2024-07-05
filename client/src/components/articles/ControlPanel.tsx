@@ -102,7 +102,7 @@ export function ControlPanel({ onPageSelect }: ControlPanelProps) {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          <h1>{bookName}</h1>
+          <h1>{bookName.charAt(0).toUpperCase() + bookName.slice(1)}</h1>
         </Group>
       </div>
       <ScrollArea className={classes.links} p="sm">

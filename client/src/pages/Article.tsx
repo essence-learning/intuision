@@ -27,7 +27,7 @@ const Article: React.FC = () => {
         throw new Error("Failed to fetch article");
       }
 
-      navigate(`/book/${bookName}/${pageId}`);
+      navigate(`/book/${bookName.toLowerCase()}/${pageId}`);
 
       const content = await response.json();
       setMdxContent(JSON.stringify(content));
@@ -48,18 +48,14 @@ const Article: React.FC = () => {
 
   return (
     <AppShell
-      header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header>
-        <NavBar />
-      </AppShell.Header>
       <AppShell.Navbar p="0">
         <ControlPanel onPageSelect={handlePageSelect} />
       </AppShell.Navbar>
 
-      <AppShell.Main>
+      <AppShell.Main pt="0" pr="0">
         <div>
           {isLoading && <p>Loading...</p>}
           {error && <p className="error">{error}</p>}

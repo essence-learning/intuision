@@ -4,16 +4,18 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Paper,
   ScrollArea,
-  TextInput,
   Button,
   Group,
   Flex,
+  Title,
   useMantineTheme,
+  Textarea,
+  CloseButton,
 } from "@mantine/core";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Plus } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -23,24 +25,31 @@ interface Message {
 interface ChatBotProps {
   propId?: string | null;
   priorText?: string;
+  onClose: () => void;
 }
 
 //TODO: disgusting style -- fix it.
 
-const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
+const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  // const { conversationId } = useParams<{ conversationId: string }>();
+  const { pageId } = useParams<{ pageId: string }>();
   const [conversationId, setConversationId] = useState<string | null>(null);
   const theme = useMantineTheme();
 
-  const textInput = useRef<HTMLInputElement>(null);
+  const textInput = useRef<HTMLTextAreaElement>(null);
 
   //focus on mount
   //TODO: maintain the text selection / highlighting when user is using chat box -- though idk if this is possible in web...
   useEffect(() => {
     textInput.current?.focus();
   }, []);
+
+  const resetChat = () => {
+    setMessages([]);
+    setInputMessage("");
+    setConversationId(null);
+  };
 
   const getMessages = async () => {
     try {
@@ -82,13 +91,10 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
         //TODO: add two additional fields: one for priorText (perhaps only send on the first query) and then one for type of query?
         //Though, the type of query could be processed on the back-end (heard of some functional recognition stuff that could be used for this)
         body: JSON.stringify({
-          message: conversationId
-            ? inputMessage
-            : "The following set of questions refer to this text that the user highlighted: " +
-              priorText +
-              ". Now here is their query:" +
-              inputMessage,
+          message: inputMessage,
           conversationId: conversationId,
+          selectedText: priorText,
+          pageId: pageId,
         }),
       });
 
@@ -132,52 +138,83 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText }) => {
     if (propId) {
       setConversationId(propId);
     }
-  }, []);
+    resetChat();
+  }, [priorText]);
 
   return (
     <Flex
       direction="column"
-      align-items="center"
-      justify="space-between"
-      h="100%"
-      style={{ backgroundColor: theme.colors.gray[0] }}
+      align-items="stretch"
+      justify="center"
+      flex="1"
+      mah="100%"
+      px="0"
     >
-      <ScrollArea style={{ flex: 1, marginBottom: theme.spacing.md }}>
+      <Flex justify="space-between">
+        <Button
+          variant="subtle"
+          className="rounded-xl"
+          leftSection={<Plus strokeWidth={1.75} />}
+          onClick={resetChat}
+        >
+          Fresh Chat
+        </Button>
+        {/* <Title size={16}>LeSperm</Title> */}
+        <CloseButton onClick={onClose} />
+      </Flex>
+      <ScrollArea
+        style={{ flex: 1, marginBottom: theme.spacing.md }}
+        px="sm"
+        pt="md"
+      >
         {messages.map((msg, index) => (
           <Paper
             key={index}
-            p="xs"
+            p="sm"
             mb="xs"
             radius="lg"
+            shadow={msg.role === "user" ? "0" : "xs"}
             style={{
               float: msg.role === "user" ? "right" : "left",
               clear: "both",
-              maxWidth: "80%",
+              width: msg.role === "user" ? "80%" : "100%",
               backgroundColor:
                 msg.role === "user"
-                  ? theme.colors.blue[5]
-                  : theme.colors.gray[2],
-              color: msg.role === "user" ? theme.white : theme.black,
+                  ? theme.colors.gray[3]
+                  : theme.colors.gray[0],
+              color: msg.role === "user" ? theme.black : theme.black,
             }}
           >
             {msg.content}
           </Paper>
         ))}
       </ScrollArea>
-      <Group gap={0}>
-        <TextInput
+      <Group
+        gap="sm"
+        p="xs"
+        pl="sm"
+        align="start"
+        className="rounded-xl"
+        bg={theme.colors.gray[0]}
+      >
+        <Textarea
           ref={textInput}
           placeholder="Type your message..."
           value={inputMessage}
+          variant="unstyled"
+          autosize={true}
+          minRows={1}
+          maxRows={5}
           onChange={(event) => setInputMessage(event.currentTarget.value)}
-          style={{ flex: 1 }}
+          className="b-none flex-1 wrap"
         />
         <Button
           onClick={sendMessage}
+          className="rounded-xl"
           color="blue"
-          style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+          p="xs"
         >
-          <ArrowUp size={18} />
+          <ArrowUp size={20} />
         </Button>
       </Group>
     </Flex>
