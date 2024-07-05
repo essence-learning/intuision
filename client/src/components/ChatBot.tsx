@@ -7,15 +7,16 @@ import {
   Button,
   Group,
   Flex,
-  Title,
+  Combobox,
   useMantineTheme,
   Textarea,
   CloseButton,
+  Tooltip,
 } from "@mantine/core";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ArrowUp, Plus } from "lucide-react";
+import { ArrowUp, ChevronDown, Plus } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -35,6 +36,9 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
   const [inputMessage, setInputMessage] = useState("");
   const { pageId } = useParams<{ pageId: string }>();
   const [conversationId, setConversationId] = useState<string | null>(null);
+
+  const [conversations, setConversations] = useState<string[]>([]);
+
   const theme = useMantineTheme();
 
   const textInput = useRef<HTMLTextAreaElement>(null);
@@ -49,6 +53,23 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
     setMessages([]);
     setInputMessage("");
     setConversationId(null);
+  };
+
+  const getChats = async () => {
+    try {
+      const response = await fetch("/api/assistant/allchats", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("Error getting chats:", error);
+    }
   };
 
   const getMessages = async () => {
@@ -150,18 +171,42 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
       mah="100%"
       px="0"
     >
-      <Flex justify="space-between">
-        <Button
-          variant="subtle"
-          className="rounded-xl"
-          leftSection={<Plus strokeWidth={1.75} />}
-          onClick={resetChat}
-        >
-          Fresh Chat
-        </Button>
+      {/* Actual Controls */}
+      <Flex justify="space-between" align="center" wrap="nowrap">
+        <Group gap="xs">
+          <Tooltip label="Fresh context, fresh perspectives!">
+            <Button
+              variant="subtle"
+              className="rounded-xl"
+              leftSection={<Plus strokeWidth={1.75} />}
+              onClick={resetChat}
+            >
+              Fresh Chat
+            </Button>
+          </Tooltip>
+          {conversationId && (
+            <Button
+              variant="subtle"
+              className="rounded-xl"
+              rightSection={<ChevronDown />}
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {conversationId}
+            </Button>
+          )}
+        </Group>
+
         {/* <Title size={16}>LeSperm</Title> */}
         <CloseButton onClick={onClose} />
       </Flex>
+
+      {/* List of possible chats */}
+
+      {/* Actual Chat */}
       <ScrollArea
         style={{ flex: 1, marginBottom: theme.spacing.md }}
         px="sm"

@@ -231,7 +231,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
           }}
           leftSection={<ChevronsLeft />}
         >
-          Open Chat
+          Open Assistant
         </Button>
       )}
 
