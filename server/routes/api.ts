@@ -30,12 +30,19 @@ router.get("/book/:bookName", (req: Request, res: Response) => {
   });
 });
 
+const booksDirectory = path.resolve(__dirname, '../books');
+console.log(booksDirectory);
+router.use('/books', express.static(booksDirectory));
+
 router.get('/article/:bookName/:fileName', async (req, res) => {
   const { bookName, fileName } = req.params;
   const filePath = path.join(__dirname, `../books/${bookName}/content/`, `${fileName}.mdx`);
   if (fs.existsSync(filePath)) {
-    const mdxContent = fs.readFileSync(filePath, 'utf-8');
+    let mdxContent = fs.readFileSync(filePath, 'utf-8');
     
+    const baseURL = `/api/books/${bookName}/media/`;
+    mdxContent = mdxContent.replace(/__MEDIA_URL__/g, baseURL);
+
     try {
       const { code, frontmatter } = await bundleMDX({ source: mdxContent });
       res.json({ code, frontmatter });
