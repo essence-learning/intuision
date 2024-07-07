@@ -12,6 +12,7 @@ const Article: React.FC = () => {
   const [mdxContent, setMdxContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [articleId, setArticleId] = useState<string>("default");
 
   const handlePageSelect = async (bookName: string, pageId: string) => {
     setIsLoading(true);
@@ -21,6 +22,7 @@ const Article: React.FC = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch article');
       }
+      setArticleId(pageId);
       const content = await response.json();
       setMdxContent(JSON.stringify(content));
     } catch (err) {
@@ -50,7 +52,7 @@ const Article: React.FC = () => {
           {isLoading && <p>Loading...</p>}
           {error && <p className="error">{error}</p>}
           {mdxContent && (
-            <ArticleContent content={mdxContent} />
+            <ArticleContent article_id={articleId} content={mdxContent} />
           )}
         </div>
       </AppShell.Main>
