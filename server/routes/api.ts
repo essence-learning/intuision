@@ -2,10 +2,10 @@ import express, { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 
-
-import { bundleMDX } from 'mdx-bundler';
+import { bundleMDX } from "mdx-bundler";
 
 import assistantRoutes from "./assistantRoutes";
+import animRoutes from "./animRoutes";
 import { generateHaiku } from "../services/textService";
 
 const router = express.Router();
@@ -30,21 +30,25 @@ router.get("/book/:bookName", (req: Request, res: Response) => {
   });
 });
 
-router.get('/article/:bookName/:fileName', async (req, res) => {
+router.get("/article/:bookName/:fileName", async (req, res) => {
   const { bookName, fileName } = req.params;
-  const filePath = path.join(__dirname, `../books/${bookName}/content/`, `${fileName}.mdx`);
+  const filePath = path.join(
+    __dirname,
+    `../books/${bookName}/content/`,
+    `${fileName}.mdx`,
+  );
   if (fs.existsSync(filePath)) {
-    const mdxContent = fs.readFileSync(filePath, 'utf-8');
-    
+    const mdxContent = fs.readFileSync(filePath, "utf-8");
+
     try {
       const { code, frontmatter } = await bundleMDX({ source: mdxContent });
       res.json({ code, frontmatter });
     } catch (error) {
-      console.error('Error processing MDX file:', error);
-      res.status(500).json({ error: 'Error processing MDX file' });
+      console.error("Error processing MDX file:", error);
+      res.status(500).json({ error: "Error processing MDX file" });
     }
   } else {
-    res.status(404).json({ error: 'MDX file not found' });
+    res.status(404).json({ error: "MDX file not found" });
   }
 });
 
@@ -58,5 +62,6 @@ router.get("/haiku", async (req: Request, res: Response) => {
 });
 
 router.use("/assistant", assistantRoutes);
+router.use("/animation", animRoutes);
 
 export default router;

@@ -55,23 +55,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
     setConversationId(null);
   };
 
-  const getChats = async () => {
-    try {
-      const response = await fetch("/api/assistant/allchats", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      console.error("Error getting chats:", error);
-    }
-  };
-
   const getMessages = async () => {
     try {
       if (!conversationId) return;
@@ -162,6 +145,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
     resetChat();
   }, [priorText]);
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <Flex
       direction="column"
@@ -250,6 +240,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
           autosize={true}
           minRows={1}
           maxRows={5}
+          onKeyDown={handleKeyDown}
           onChange={(event) => setInputMessage(event.currentTarget.value)}
           className="b-none flex-1 wrap"
         />

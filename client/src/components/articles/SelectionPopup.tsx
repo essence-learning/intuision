@@ -1,5 +1,5 @@
 import { Paper, Button, Group, Tooltip } from "@mantine/core";
-import { Highlighter, MessageSquareText } from "lucide-react";
+import { Highlighter, MessageSquareText, Brush } from "lucide-react";
 import { BsStars } from "react-icons/bs";
 
 interface SelectionPopupProps {
@@ -8,6 +8,7 @@ interface SelectionPopupProps {
   onAI: () => void;
   onHighlight: () => void;
   onComment: () => void;
+  onVisualize: () => void;
 }
 
 const SelectionPopup: React.FC<SelectionPopupProps> = ({
@@ -16,6 +17,7 @@ const SelectionPopup: React.FC<SelectionPopupProps> = ({
   onAI,
   onHighlight,
   onComment,
+  onVisualize,
 }) => {
   return (
     <Paper
@@ -40,6 +42,11 @@ const SelectionPopup: React.FC<SelectionPopupProps> = ({
         <Tooltip label="Highlight selected text" position="top">
           <Button variant="subtle" onClick={onHighlight}>
             <Highlighter size={16} />
+          </Button>
+        </Tooltip>
+        <Tooltip label="Generate Animation!" position="top">
+          <Button variant="subtle" onClick={onVisualize}>
+            <Brush size={16} />
           </Button>
         </Tooltip>
         <Tooltip label="Comment / Leave a note" position="top">

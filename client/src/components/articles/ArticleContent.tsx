@@ -16,6 +16,7 @@ import CommentSideBar from "./comments/CommentSideBar";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ChatBot from "../ChatBot";
 import { ChevronsLeft, GripVertical, Plus } from "lucide-react";
+import Scene from "./Scene";
 
 // import Scene from "./Scene";
 
@@ -42,6 +43,9 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
 
   //Handling the comment side bar
   const [showComments, setShowComments] = React.useState(false);
+
+  //Handling the scene sidebar
+  const [showScene, setShowScene] = useState(false);
 
   //handling the chat bot responsive design
   const [showChatBot, setShowChatBot] = useState(false);
@@ -204,10 +208,17 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
                     onAI={() => {
                       setShowPopup(false);
                       setShowChatBot(true);
+                      setShowScene(false);
                       setChatBotPrior(selectedText);
                       setShowComments(false);
                     }}
                     onHighlight={() => {}}
+                    onVisualize={() => {
+                      setShowPopup(false);
+                      setShowScene(true);
+                      setShowComments(false);
+                      setShowChatBot(false);
+                    }}
                     onComment={() => {
                       setShowPopup(false);
                       setShowComments(true);
@@ -221,7 +232,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
         </ScrollArea>
       </Panel>
 
-      {!showChatBot && (
+      {!(showChatBot || showScene) && (
         <Button
           variant="subtle"
           className="rounded-xl fixed top-4 right-4"
@@ -235,11 +246,11 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
         </Button>
       )}
 
-      {showChatBot && (
+      {(showChatBot || showScene) && (
         <>
           <PanelResizeHandle className="relative flex w-px items-center justify-center">
-            <div className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-white fixed top-[50vh]">
-              <GripVertical className="h-5 w-5" />
+            <div className="z-10 flex h-5 w-4  items-center justify-center rounded-sm border bg-white fixed top-[50vh]">
+              <GripVertical className="h-4 w-4" />
             </div>
           </PanelResizeHandle>
           <Panel
@@ -265,16 +276,20 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
                     }
               }
             >
-              <Stack gap="md" mx="sm" my="0" h="94vh">
-                <ChatBot
-                  propId={null}
-                  priorText={chatBotPrior}
-                  onClose={() => {
-                    setShowChatBot(false);
-                    setChatBotPrior("");
-                  }}
-                />
-              </Stack>
+              {showScene ? (
+                <Scene in_article={false} blockId="test-block-id" />
+              ) : (
+                <Stack gap="md" mx="sm" my="0" h="94vh">
+                  <ChatBot
+                    propId={null}
+                    priorText={chatBotPrior}
+                    onClose={() => {
+                      setShowChatBot(false);
+                      setChatBotPrior("");
+                    }}
+                  />
+                </Stack>
+              )}
             </Box>
           </Panel>
         </>

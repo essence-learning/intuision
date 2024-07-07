@@ -36,8 +36,12 @@ class TextService {
       console.log(conversationId);
       if (!conversationId) {
         console.log("balaoj;asldf");
+        // TODO: update system message with context from the pageId / actual page.
         const newConversation = new Conversation({
-          systemPrompt: `You are a helpful physics assistant ready to answer questions and provide alternate explanations for students. Please respond in english and include any necessary equations in LaTeX. The following conversations may refer to this text that the user selected: ${selectedText}. If they ask a question which appears to lack context, please use this prior text that was just provided. Please do not make any mention of "selected text" to the user.`,
+          systemPrompt:
+            selectedText && selectedText.length > 0
+              ? `You are a helpful physics assistant ready to answer questions and provide alternate explanations for students. Please respond in english and include any necessary equations in LaTeX. The following conversations may refer to this text that the user selected: ${selectedText}. If they ask a question which appears to lack context, please use this prior text that was just provided. Please do not make any mention of "selected text" to the user.`
+              : `You are a helpful physics assistant ready to answer questions and provide alternate explanations for students. Please respond in english and include any necessary equations in LaTeX.`,
           messages: [],
         });
         await newConversation.save();

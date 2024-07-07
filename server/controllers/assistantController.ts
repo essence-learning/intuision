@@ -15,9 +15,7 @@ export const getChatHistory = async (req: Request, res: Response) => {
 
 export const sendMessage = async (req: Request, res: Response) => {
   try {
-    console.log("Request body:", req.body);
     const { message, conversationId, selectedText, pageId } = req.body;
-    console.log("made it toh here.asdf.");
     const response = await TextService.sendMessage(
       conversationId,
       message,
