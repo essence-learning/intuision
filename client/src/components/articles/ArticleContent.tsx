@@ -16,7 +16,7 @@ import CommentSideBar from "./comments/CommentSideBar";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ChatBot from "../ChatBot";
 import { ChevronsLeft, GripVertical, Plus } from "lucide-react";
-import Scene from "./Scene";
+import Scene from "./scene/Scene";
 
 // import Scene from "./Scene";
 
@@ -249,13 +249,15 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
       {(showChatBot || showScene) && (
         <>
           <PanelResizeHandle className="relative flex w-px items-center justify-center">
-            <div className="z-10 flex h-5 w-4  items-center justify-center rounded-sm border bg-white fixed top-[50vh]">
-              <GripVertical className="h-4 w-4" />
-            </div>
+            {!showScene && (
+              <div className="z-10 flex h-5 w-4  items-center justify-center rounded-sm border bg-white fixed top-[50vh]">
+                <GripVertical className="h-4 w-4" />
+              </div>
+            )}
           </PanelResizeHandle>
           <Panel
-            defaultSize={chatPanelWidth}
-            minSize={20}
+            defaultSize={showScene ? 50 : chatPanelWidth}
+            minSize={showScene ? 50 : 20}
             maxSize={50}
             className={!screenSmall ? `border-l p-6` : `border-t p-6`}
             onResize={(size) => setChatPanelWidth(size)}
@@ -277,7 +279,13 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ content }) => {
               }
             >
               {showScene ? (
-                <Scene in_article={false} blockId="test-block-id" />
+                <Scene
+                  in_article={false}
+                  blockId="test-block-id-12343132"
+                  onClose={() => {
+                    setShowScene(false);
+                  }}
+                />
               ) : (
                 <Stack gap="md" mx="sm" my="0" h="94vh">
                   <ChatBot

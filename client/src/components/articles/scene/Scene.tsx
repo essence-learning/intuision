@@ -1,14 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Flex, Box, Loader } from "@mantine/core";
-import R3FRenderer from "./R3FRenderer";
+import {
+  Flex,
+  Box,
+  Stack,
+  Loader,
+  AspectRatio,
+  CloseButton,
+} from "@mantine/core";
+import R3FRenderer from "./DynamicScene";
+import DynamicScene from "./DynamicScene";
 
 interface SceneProps {
   in_article: boolean;
   blockId: string;
-  // onExpand: () => void;
+  onClose: () => void;
 }
 
-const Scene: React.FC<SceneProps> = ({ in_article, blockId }) => {
+const Scene: React.FC<SceneProps> = ({ in_article, blockId, onClose }) => {
   const [caption, setCaption] = useState("");
   const [sceneCode, setSceneCode] = useState("");
 
@@ -29,13 +37,16 @@ const Scene: React.FC<SceneProps> = ({ in_article, blockId }) => {
   }, [blockId]);
 
   return (
-    <Flex w="100%" p="5" direction="column" justify="center" align="center">
-      <Box w="33%" className="aspect-video" m="3">
-        {sceneCode ? <R3FRenderer code={sceneCode} /> : <Loader />}
-      </Box>
-      <Box maw="20%">
-        <p>{caption}</p>
-      </Box>
+    <Flex direction="column" justify="start" align="end" h="100%">
+      <CloseButton onClick={onClose} />
+      <Stack gap="sm" p="5" justify="center" align="center" w="100%" h="100%">
+        <AspectRatio w="100%" ratio={16 / 9}>
+          {sceneCode ? <DynamicScene code={sceneCode} /> : <Loader />}
+        </AspectRatio>
+        <Box maw="60%">
+          <p>{caption}</p>
+        </Box>
+      </Stack>
     </Flex>
   );
 };
