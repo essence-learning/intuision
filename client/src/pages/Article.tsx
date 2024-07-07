@@ -13,6 +13,7 @@ const Article: React.FC = () => {
   const [mdxContent, setMdxContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [articleId, setArticleId] = useState<string>("default");
 
   const navigate = useNavigate();
   const { pageId } = useParams();
@@ -28,7 +29,7 @@ const Article: React.FC = () => {
       }
 
       navigate(`/book/${bookName.toLowerCase()}/${pageId}`);
-
+      setArticleId(pageId);
       const content = await response.json();
       setMdxContent(JSON.stringify(content));
     } catch (err) {
@@ -59,7 +60,9 @@ const Article: React.FC = () => {
         <div>
           {isLoading && <p>Loading...</p>}
           {error && <p className="error">{error}</p>}
-          {mdxContent && <ArticleContent content={mdxContent} />}
+          {mdxContent && (
+            <ArticleContent article_id={articleId} content={mdxContent} />
+          )}
         </div>
       </AppShell.Main>
     </AppShell>
