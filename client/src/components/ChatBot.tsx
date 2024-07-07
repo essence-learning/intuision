@@ -1,22 +1,59 @@
 //Rewrite this entire file -- it's only for testing back end stuff.
 
-import React, { useState, useEffect } from "react";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
-// import { Button } from "@radix-ui/themes";
-// import * as Label from "@radix-ui/react-label";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Paper,
+  ScrollArea,
+  Button,
+  Group,
+  Flex,
+  Combobox,
+  useMantineTheme,
+  Textarea,
+  CloseButton,
+  Tooltip,
+} from "@mantine/core";
+
 import { useNavigate, useParams } from "react-router-dom";
+
+import { ArrowUp, ChevronDown, Plus } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const ChatBot: React.FC = () => {
+interface ChatBotProps {
+  propId?: string | null;
+  priorText?: string;
+  onClose: () => void;
+}
+
+//TODO: disgusting style -- fix it.
+
+const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const { conversationId } = useParams<{ conversationId: string }>();
+  const { pageId } = useParams<{ pageId: string }>();
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  const [conversations, setConversations] = useState<string[]>([]);
+
+  const theme = useMantineTheme();
+
+  const textInput = useRef<HTMLTextAreaElement>(null);
+
+  //focus on mount
+  //TODO: maintain the text selection / highlighting when user is using chat box -- though idk if this is possible in web...
+  useEffect(() => {
+    textInput.current?.focus();
+  }, []);
+
+  const resetChat = () => {
+    setMessages([]);
+    setInputMessage("");
+    setConversationId(null);
+  };
 
   const getMessages = async () => {
     try {
@@ -55,9 +92,13 @@ const ChatBot: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        //TODO: add two additional fields: one for priorText (perhaps only send on the first query) and then one for type of query?
+        //Though, the type of query could be processed on the back-end (heard of some functional recognition stuff that could be used for this)
         body: JSON.stringify({
           message: inputMessage,
           conversationId: conversationId,
+          selectedText: priorText,
+          pageId: pageId,
         }),
       });
 
@@ -72,7 +113,7 @@ const ChatBot: React.FC = () => {
         { role: "assistant", content: data.response },
       ]);
       if (!conversationId) {
-        navigate(`/chatting/${data.conversationId}`);
+        setConversationId(data.conversationId);
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -94,55 +135,125 @@ const ChatBot: React.FC = () => {
   //on load get chat history
   useEffect(() => {
     if (conversationId) getMessages();
-  }, [conversationId, navigate]);
+  }, [conversationId]);
+
+  //initial load
+  useEffect(() => {
+    if (propId) {
+      setConversationId(propId);
+    }
+    resetChat();
+  }, [priorText]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Physics ChatBot</h1>
-      <ScrollArea.Root className="flex-grow mb-4 border rounded-md">
-        <ScrollArea.Viewport className="h-full p-4 ScrollAreaViewport">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`mb-2 ${msg.role === "user" ? "text-right" : "text-left"}`}
+    <Flex
+      direction="column"
+      align-items="stretch"
+      justify="center"
+      flex="1"
+      mah="100%"
+      px="0"
+    >
+      {/* Actual Controls */}
+      <Flex justify="space-between" align="center" wrap="nowrap">
+        <Group gap="xs">
+          <Tooltip label="Fresh context, fresh perspectives!">
+            <Button
+              variant="subtle"
+              className="rounded-xl"
+              leftSection={<Plus strokeWidth={1.75} />}
+              onClick={resetChat}
             >
-              <span
-                className={`inline-block p-2 rounded-lg ${
-                  msg.role === "user"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-black"
-                }`}
-              >
-                {msg.content}
-              </span>
-            </div>
-          ))}
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar orientation="vertical">
-          <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-      </ScrollArea.Root>
-      <div className="flex">
-        <Label.Root className="sr-only" htmlFor="chat-input">
-          Enter your message
-        </Label.Root>
-        <input
-          id="chat-input"
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-grow border rounded-l-md p-2"
+              Fresh Chat
+            </Button>
+          </Tooltip>
+          {conversationId && (
+            <Button
+              variant="subtle"
+              className="rounded-xl"
+              rightSection={<ChevronDown />}
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {conversationId}
+            </Button>
+          )}
+        </Group>
+
+        {/* <Title size={16}>LeSperm</Title> */}
+        <CloseButton onClick={onClose} />
+      </Flex>
+
+      {/* List of possible chats */}
+
+      {/* Actual Chat */}
+      <ScrollArea
+        style={{ flex: 1, marginBottom: theme.spacing.md }}
+        px="sm"
+        pt="md"
+      >
+        {messages.map((msg, index) => (
+          <Paper
+            key={index}
+            p="sm"
+            mb="xs"
+            radius="lg"
+            shadow={msg.role === "user" ? "0" : "xs"}
+            style={{
+              float: msg.role === "user" ? "right" : "left",
+              clear: "both",
+              width: msg.role === "user" ? "80%" : "100%",
+              backgroundColor:
+                msg.role === "user"
+                  ? theme.colors.gray[3]
+                  : theme.colors.gray[0],
+              color: msg.role === "user" ? theme.black : theme.black,
+            }}
+          >
+            {msg.content}
+          </Paper>
+        ))}
+      </ScrollArea>
+      <Group
+        gap="sm"
+        p="xs"
+        pl="sm"
+        align="start"
+        className="rounded-xl"
+        bg={theme.colors.gray[0]}
+      >
+        <Textarea
+          ref={textInput}
           placeholder="Type your message..."
+          value={inputMessage}
+          variant="unstyled"
+          autosize={true}
+          minRows={1}
+          maxRows={5}
+          onKeyDown={handleKeyDown}
+          onChange={(event) => setInputMessage(event.currentTarget.value)}
+          className="b-none flex-1 wrap"
         />
         <Button
           onClick={sendMessage}
-          className="bg-blue-500 text-white p-2 rounded-r-md"
+          className="rounded-xl"
+          color="blue"
+          p="xs"
         >
-          Send
+          <ArrowUp size={20} />
         </Button>
-      </div>
-    </div>
+      </Group>
+    </Flex>
   );
 };
 

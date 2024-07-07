@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Group, ScrollArea, NavLink } from '@mantine/core';
-import classes from './ControlPanel.module.css';
+import { Group, ScrollArea, NavLink } from "@mantine/core";
+import classes from "./ControlPanel.module.css";
 
 interface Page {
   id: string;
@@ -26,8 +26,13 @@ interface LinksGroupProps {
   isTopLevel?: boolean;
 }
 
-
-const LinksGroup: React.FC<LinksGroupProps> = ({ data, shift = 0, bookName, onPageSelect, isTopLevel = false }) => {
+const LinksGroup: React.FC<LinksGroupProps> = ({
+  data,
+  shift = 0,
+  bookName,
+  onPageSelect,
+  isTopLevel = false,
+}) => {
   const [opened, setOpened] = useState(false);
 
   const pageLinks = data.pages.map((page) => {
@@ -97,10 +102,10 @@ export function ControlPanel({ onPageSelect }: ControlPanelProps) {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          <h1>{bookName}</h1>
+          <h1>{bookName.charAt(0).toUpperCase() + bookName.slice(1)}</h1>
         </Group>
       </div>
-      <ScrollArea className={classes.links}>
+      <ScrollArea className={classes.links} p="sm">
         <div className={classes.linksInner}>
           <LinksGroup
             data={book}

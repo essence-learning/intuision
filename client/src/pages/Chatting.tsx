@@ -2,8 +2,8 @@ import ChatBot from "@/components/ChatBot";
 
 const Chatting = () => {
   return (
-    <div>
-      <ChatBot />
+    <div className="h-screen">
+      <ChatBot propId={null} />
     </div>
   );
 };
