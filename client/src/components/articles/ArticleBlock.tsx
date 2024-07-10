@@ -7,7 +7,7 @@ interface ArticleBlockProps {
   block_id: string;
 }
 
-const ArticleBlock: React.FC<ArticleBlockProps> = ({ children, block_id }) => {
+const ArticleBlock: React.FC<ArticleBlockProps> = React.memo(({ children, block_id }) => {
   return (
     // <Button
     //   className="hoverable-button"
@@ -19,6 +19,6 @@ const ArticleBlock: React.FC<ArticleBlockProps> = ({ children, block_id }) => {
     </Box>
     // </Button>
   );
-};
+});
 
 export default ArticleBlock;
