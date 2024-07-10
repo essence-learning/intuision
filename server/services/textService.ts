@@ -38,7 +38,7 @@ class TextService {
     try {
       console.log(conversationId);
       if (!conversationId) {
-        console.log("balaoj;asldf");
+        console.log(selectedText);
         // TODO: update system message with context from the pageId / actual page.
         const newConversation = new Conversation({
           systemPrompt:

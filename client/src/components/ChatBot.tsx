@@ -17,6 +17,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { ArrowUp, ChevronDown, Plus } from "lucide-react";
 
+import { InlineMath, BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
+
 interface Message {
   role: "user" | "assistant";
   content: string;
@@ -27,6 +30,29 @@ interface ChatBotProps {
   priorText?: string;
   onClose: () => void;
 }
+
+const parseMessageContent = (content) => {
+  const regex = /\$(.*?)\$/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', value: content.slice(lastIndex, match.index) });
+    }
+    parts.push({ type: 'latex', value: match[1] });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push({ type: 'text', value: content.slice(lastIndex) });
+  }
+
+  return parts;
+};
+
+//TODO: disgusting style -- fix it.
 
 const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -217,7 +243,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
               color: msg.role === "user" ? theme.black : theme.black,
             }}
           >
-            {msg.content}
+            <div>
+              {parseMessageContent(msg.content).map((part, i) => (
+                part.type === 'latex' ? (
+                  <InlineMath key={i}>{part.value}</InlineMath>
+                ) : (
+                  <span key={i}>{part.value}</span>
+                )
+              ))}
+            </div>
           </Paper>
         ))}
       </ScrollArea>
