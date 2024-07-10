@@ -10,8 +10,9 @@ interface ArticleBlockProps {
 const ArticleBlock: React.FC<ArticleBlockProps> = ({ children, block_id }) => {
   console.log(`Rendering ArticleBlock with id: ${block_id}`);
   return (
-    <Box className="hoverable-box">
+    <Box className="hoverable-box" id={block_id}>
       <Text>{children}</Text>
+      <Text>{block_id}</Text>
     </Box>
   );
 };
