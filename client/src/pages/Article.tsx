@@ -1,4 +1,12 @@
-import { AppShell, Flex, Group, Image, Loader, Text } from "@mantine/core";
+import {
+  AppShell,
+  Title,
+  Flex,
+  Group,
+  Image,
+  Loader,
+  Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "react-router-dom";
 
@@ -35,7 +43,7 @@ const Article: React.FC = () => {
       setBookName(bookName);
       const content = await response.json();
       setMdxContent(JSON.stringify(content));
-      console.log('Loaded successfully');
+      console.log("Loaded successfully");
     } catch (err) {
       console.log(err);
       setError("");
@@ -78,6 +86,11 @@ const Article: React.FC = () => {
 
       <AppShell.Main pt="0">
         <div>
+          {!pageId && (
+            <Flex w="100%" h="100vh" align="center" justify="center">
+              <Title size={24}>Select a chapter from the side to start.</Title>
+            </Flex>
+          )}
           {isLoading && !mdxContent && (
             <Flex w="100%" h="100vh" align="center" justify="center">
               <Loader />
