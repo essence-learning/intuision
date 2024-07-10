@@ -30,8 +30,6 @@ interface ArticleContentProps {
 
 const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) => {
   const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
-  const paragraphCountRef = useRef(0);
-  paragraphCountRef.current = 0;
 
   useEffect(() => {
     if (content) {
@@ -39,14 +37,16 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
         const { code } = JSON.parse(content);
         const MDXComponent = getMDXComponent(code);
 
-        const WrappedComponent = (props) => {
-
+        const WrappedComponent = React.memo((props) => {
+          const paragraphCountRef = React.useRef(0);
           const CustomP = ({ children }) => {
             const block_id = `${article_id}_${paragraphCountRef.current++}`;
             return <MemoizedArticleBlock block_id={block_id} children={children} />;
           };
 
-          paragraphCountRef.current = 0;
+          React.useLayoutEffect(() => {
+            paragraphCountRef.current = 0;
+          });
 
           return (
             <MDXComponent
@@ -58,7 +58,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
               {...props}
             />
           );
-        };
+        });
 
         setComponent(() => WrappedComponent);
       } catch (error) {
