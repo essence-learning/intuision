@@ -93,9 +93,12 @@ class AnimService {
 
   async editAnimation(blockId: string, editText: string) {
     try {
-      const anim: IAnim | null = await Anim.findByBlockId(blockId);
+      let anim: IAnim | null = await Anim.findByBlockId(blockId + "_edited");
       if (!anim) {
-        return null;
+        anim = await Anim.findByBlockId(blockId);
+        if (!anim) {
+          return null;
+        }
       }
       console.log("Im in");
       const newCode = await anthropic.messages.create({
