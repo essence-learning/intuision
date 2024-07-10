@@ -13,8 +13,9 @@ const ArticleBlock: React.FC<ArticleBlockProps> = ({ children, block_id }) => {
     //   className="hoverable-button"
     //   variant="subtle"
     // >
-    <Box className="hoverable-box">
+    <Box className="hoverable-box" id={block_id}>
       <Text>{children}</Text>
+      <Text>{block_id}</Text>
     </Box>
     // </Button>
   );

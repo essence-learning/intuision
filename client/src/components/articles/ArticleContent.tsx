@@ -151,11 +151,24 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
   const [selectedText, setSelectedText] = React.useState("");
   const [showPopup, setShowPopup] = React.useState(false);
   const [selectionCoords, setSelectionCoords] = React.useState({ x: 0, y: 0 });
+  const [blockId, setBlockId] = React.useState("placeholder");
   const textBoxRef = useRef<HTMLDivElement>(null);
 
   const handleTextSelection = () => {
     const selection = window.getSelection();
     if (selection && selection.toString().trim().length > 0) {
+      const selectedElement = selection.anchorNode?.parentElement;
+      if (selectedElement) {
+        const articleBlock = selectedElement.closest('.hoverable-box');
+        if (articleBlock) {
+          const id = articleBlock.getAttribute('id');
+          if (id) {
+            setBlockId(id);
+            console.log("set block id: ", id);
+          }
+        }
+      }
+
       setSelectedText(selection.toString());
       setShowPopup(true);
       const range = selection.getRangeAt(0);
@@ -310,7 +323,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
               {showScene ? (
                 <Scene
                   in_article={false}
-                  blockId="test-block-id-12343132"
+                  blockId={blockId}
                   onClose={() => {
                     setShowScene(false);
                   }}
