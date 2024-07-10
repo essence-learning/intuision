@@ -8,16 +8,14 @@ interface ArticleBlockProps {
 }
 
 const ArticleBlock: React.FC<ArticleBlockProps> = ({ children, block_id }) => {
+  console.log(`Rendering ArticleBlock with id: ${block_id}`);
   return (
-    // <Button
-    //   className="hoverable-button"
-    //   variant="subtle"
-    // >
     <Box className="hoverable-box">
       <Text>{children}</Text>
     </Box>
-    // </Button>
   );
 };
 
-export default ArticleBlock;
+const MemoizedArticleBlock = React.memo(ArticleBlock);
+
+export default MemoizedArticleBlock;

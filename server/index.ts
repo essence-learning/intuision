@@ -9,7 +9,6 @@ import Anim, { IAnim } from "./models/Anim";
 dotenv.config();
 
 const mongoURI = process.env.MONGO_CONNECTION_URI || "";
-
 // MongoDB Connection
 mongoose
   .connect(mongoURI, {})

@@ -18,7 +18,7 @@ import ChatBot from "../ChatBot";
 import { ChevronsLeft, GripVertical, Plus } from "lucide-react";
 import Scene from "./scene/Scene";
 
-import ArticleBlock from './ArticleBlock';
+import MemoizedArticleBlock from './ArticleBlock';
 
 // import Scene from "./Scene";
 
@@ -30,30 +30,29 @@ interface ArticleContentProps {
 
 const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) => {
   const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
+  const paragraphCountRef = useRef(0);
+  paragraphCountRef.current = 0;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (content) {
       try {
         const { code } = JSON.parse(content);
         const MDXComponent = getMDXComponent(code);
-        
+
         const WrappedComponent = (props) => {
-          const paragraphCountRef = React.useRef(0);
 
           const CustomP = ({ children }) => {
             const block_id = `${article_id}_${paragraphCountRef.current++}`;
-            return <ArticleBlock block_id={block_id}>{children}</ArticleBlock>;
+            return <MemoizedArticleBlock block_id={block_id} children={children} />;
           };
 
-          React.useEffect(() => {
-            paragraphCountRef.current = 0;
-          });
+          paragraphCountRef.current = 0;
 
           return (
             <MDXComponent
               components={{
-                p: CustomP,
-                ul: CustomP,
+                p: React.memo(CustomP),
+                ul: React.memo(CustomP),
                 ...props.components
               }}
               {...props}
@@ -66,7 +65,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
         console.error("Error parsing MDX content:", error);
       }
     }
-  }, [content]);
+  }, [content, article_id]);
 
   //Handling the comment side bar
   const [showComments, setShowComments] = React.useState(false);
@@ -239,7 +238,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
                       setChatBotPrior(selectedText);
                       setShowComments(false);
                     }}
-                    onHighlight={() => {}}
+                    onHighlight={() => { }}
                     onVisualize={() => {
                       setShowPopup(false);
                       setShowScene(true);
@@ -293,16 +292,16 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
               style={
                 !screenSmall
                   ? {
-                      position: "fixed",
-                      top: "24px",
-                      height: "94vh",
-                      //resizing chat window if it goes to small screen
-                      width: ` calc((100vw - 350px) * ${chatPanelWidth / 100})`,
-                    }
+                    position: "fixed",
+                    top: "24px",
+                    height: "94vh",
+                    //resizing chat window if it goes to small screen
+                    width: ` calc((100vw - 350px) * ${chatPanelWidth / 100})`,
+                  }
                   : {
-                      position: "relative",
-                      width: "100%",
-                    }
+                    position: "relative",
+                    width: "100%",
+                  }
               }
             >
               {showScene ? (

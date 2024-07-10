@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
 import Anthropic from "@anthropic-ai/sdk";
 
 import Conversation, { IConversation } from "../models/llms/Conversation";
 
-const anthropic = new Anthropic();
+dotenv.config();
+
+let anthropic = new Anthropic();
 
 //TODO: Implement RAG for this service to improve the answers -- take larger contexts of part of the textbook to cater the explanation to go beyond it?
 
