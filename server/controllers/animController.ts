@@ -5,7 +5,10 @@ export const getAnimation = async (req: Request, res: Response) => {
   try {
     console.log("im getting stuff!");
     const { blockId, selectedText, pageId } = req.body;
-    const animData = await AnimService.getAnimation(blockId);
+    let animData = await AnimService.getAnimation(blockId + "_edited");
+    if (!animData) {
+      animData = await AnimService.getAnimation(blockId);
+    }
     if (animData) {
       console.log("SUCCESS");
       res.json({
@@ -49,6 +52,21 @@ export const generateAnimation = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to send message" });
+  }
+};
+
+export const editAnimation = async (req: Request, res: Response) => {
+  try {
+    const { blockId, editMessage } = req.body;
+    const animCode = await AnimService.editAnimation(blockId, editMessage);
+    if (!animCode) {
+      res.status(500).json({ error: "Failed to edit animation" });
+    }
+    res.json({
+      animCode: animCode,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to edit animation" });
   }
 };
 
