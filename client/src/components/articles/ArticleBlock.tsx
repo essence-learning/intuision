@@ -8,7 +8,6 @@ interface ArticleBlockProps {
 }
 
 const ArticleBlock: React.FC<ArticleBlockProps> = React.memo(({ children, block_id }) => {
-  const selectionRef = useRef({ text: '', coords: { x: 0, y: 0 }, blockId: '' });
   return (
     <Box className="hoverable-box" id={block_id}>
       <Text>{children}</Text>
