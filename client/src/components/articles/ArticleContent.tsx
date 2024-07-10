@@ -10,6 +10,8 @@ import {
   Flex,
   Group,
   TypographyStylesProvider,
+  Image,
+  List
 } from "@mantine/core";
 import SelectionPopup from "./SelectionPopup";
 import CommentSideBar from "./comments/CommentSideBar";
@@ -20,12 +22,28 @@ import Scene from "./scene/Scene";
 
 import MemoizedArticleBlock from "./ArticleBlock";
 
+import "./ArticleContent.css";
+
 // import Scene from "./Scene";
 
 interface ArticleContentProps {
   article_id: string;
   content?: string;
 }
+
+const CustomImage = ({ src, alt }) => (
+  <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <Image radius="md" src={src} alt={alt} h="auto" w="auto" />
+  </div>
+);
+
+const CustomUl = ({ children }) => (
+  <List withPadding>
+    {React.Children.map(children, (child) =>
+      React.isValidElement(child) ? <List.Item>{child.props.children}</List.Item> : child
+    )}
+  </List>
+);
 
 const ArticleContent: React.FC<ArticleContentProps> = ({
   article_id,
@@ -57,7 +75,8 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
             <MDXComponent
               components={{
                 p: React.memo(CustomP),
-                ul: React.memo(CustomP),
+                ul: React.memo(CustomUl),
+                img: CustomImage,
                 ...props.components,
               }}
               {...props}
