@@ -1,0 +1,142 @@
+You are an experienced physics diagram maker. Please create an interactive three.js animation to be displayed in an educational website. Your three.js code must adhere to the following:
+1. Your code will be plugged into the following framework through the variable "code": const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      size.width / size.height,
+      0.1,
+      1000,
+    );
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(size.width, size.height);
+    containerRef.current.appendChild(renderer.domElement);
+
+    // Set up OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Execute the dynamic scene code: THIS IS THE PLACE WHERE THE CODE YOU WRITE WILL BE EXECUTED, as "code"
+    const setupScene = new Function("THREE", "scene", "camera", code);
+    setupScene(THREE, scene, camera);
+
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+2. Write out your plan for what the animation or interactive scene will be and then write the three.js code, while clearly marking it. Here is what it should look like:
+Describe your plan: blah blah blah
+//THREE.JS CODE HERE
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+camera.position.z = 5;
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+pointLight.position.set(0, 0, 10);
+scene.add(pointLight);
+function animate() {
+  requestAnimationFrame(animate);
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+}
+animate();
+//END OF THREE.JS CODE
+3. If the scene is best depicted within 2-D space, fix the Camera such that it is 2-D and indicante following the END OF THREE.JS CODE that there should be no orbit controls, like so:
+//END OF THREE.JS CODE -- NO ORBIT CONTROLS
+4. You may write out all the three.js code to help your thinking but please clearly mark out the code which can be plugged into the pipeline in requirement (1). I repeat, clearly mark it out from the rest of the code.
+Now, with these requirements in mind, please generate an animation depicting the fact that [remainder]
+
+
+You are an experienced physics diagram maker. Please create an interactive three.js animation to be displayed in an educational website. Your three.js code must adhere to the following: 1. Your code will be plugged into the following framework through the variable "code": const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera( 75, size.width / size.height, 0.1, 1000, ); const renderer = new THREE.WebGLRenderer(); renderer.setSize(size.width, size.height); containerRef.current.appendChild(renderer.domElement); // Set up OrbitControls const controls = new OrbitControls(camera, renderer.domElement); // Execute the dynamic scene code: THIS IS THE PLACE WHERE THE CODE YOU WRITE WILL BE EXECUTED, as "code" const setupScene = new Function("THREE", "scene", "camera", code); setupScene(THREE, scene, camera); // Animation loop const animate = () => { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }; animate(); 2. Write out your plan for what the animation or interactive scene will be and then write the three.js code, while clearly marking it. Here is what it should look like: Describe your plan: blah blah blah //THREE.JS CODE HERE const geometry = new THREE.BoxGeometry(1, 1, 1); const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 }); const cube = new THREE.Mesh(geometry, material); scene.add(cube); camera.position.z = 5; const ambientLight = new THREE.AmbientLight(0x404040); scene.add(ambientLight); const pointLight = new THREE.PointLight(0xffffff, 1, 100); pointLight.position.set(0, 0, 10); scene.add(pointLight); function animate() { requestAnimationFrame(animate); cube.rotation.x += 0.01; cube.rotation.y += 0.01; } animate(); //END OF THREE.JS CODE 3. If the scene is best depicted within 2-D space, fix the Camera such that it is 2-D and indicante following the END OF THREE.JS CODE that there should be no orbit controls, like so: "//END OF THREE.JS CODE -- NO ORBIT CONTROLS" 4. When a reference image contains complicated figures (humans, cars, bicycles, etc.) please ignore them and use easily renderable shapes instead, or leave them out altogether if they are not critical for the concept being demonstrated. 5. You may write out all the three.js code to help your thinking but please clearly mark out the code which can be plugged into the pipeline in requirement (1). I repeat, clearly mark it out from the rest of the code with "//THREE.JS CODE HERE" and "//END OF THREE.JS CODE".
+
+Now, with these requirements in mind, please generate an interactive scene / animation demonstrating the fact that in projectile motion
+
+Since vertical and horizontal motions are independent, we can analyze them separately, along perpendicular axes. To do this, we separate projectile motion into the two components of its motion, one along the horizontal axis and the other along the vertical. A reference image is attached for your convenience. Thanks!
+
+// Set up scene
+scene.background = new THREE.Color(0xf0f0f0);
+// Camera setup for 2D view
+camera.position.set(0, 0, 10);
+camera.lookAt(0, 0, 0);
+// Constants
+const cannonSize = 0.5;
+const ballRadius = 0.1;
+const groundY = -2;
+const cannonX = -4.5;
+const cannonY = 1.5;
+const gravity = -9.8;
+const initialVelocity = 5;
+const timeStep = 1/60;
+let time = 0;
+// Create cannon
+const cannonGeometry = new THREE.CylinderGeometry(cannonSize / 2, cannonSize / 2, cannonSize, 32);
+const cannonMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+const cannon = new THREE.Mesh(cannonGeometry, cannonMaterial);
+cannon.position.set(cannonX, cannonY, 0);
+cannon.rotation.z = -Math.PI / 2;
+scene.add(cannon);
+// Create ground
+const groundGeometry = new THREE.PlaneGeometry(10, 0.1);
+const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x00aa00 });
+const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.position.set(0, groundY, 0);
+scene.add(ground);
+// Create balls
+const ballGeometry = new THREE.SphereGeometry(ballRadius, 32, 32);
+const ballMaterial1 = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+const ballMaterial2 = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+const projectileBall = new THREE.Mesh(ballGeometry, ballMaterial1);
+const droppedBall = new THREE.Mesh(ballGeometry, ballMaterial2);
+scene.add(projectileBall);
+scene.add(droppedBall);
+// Create trace lines
+const traceMaterial1 = new THREE.LineBasicMaterial({ color: 0xff0000 });
+const traceMaterial2 = new THREE.LineBasicMaterial({ color: 0x0000ff });
+const traceGeometry1 = new THREE.BufferGeometry();
+const traceGeometry2 = new THREE.BufferGeometry();
+const traceLine1 = new THREE.Line(traceGeometry1, traceMaterial1);
+const traceLine2 = new THREE.Line(traceGeometry2, traceMaterial2);
+scene.add(traceLine1);
+scene.add(traceLine2);
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+// Animation function
+function animate() {
+time += timeStep;
+// Calculate positions
+const x1 = cannonX + initialVelocity * time;
+const y1 = cannonY + 0.5 * gravity * time * time;
+const x2 = cannonX;
+const y2 = cannonY + 0.5 * gravity * time * time;
+
+// Update ball positions
+projectileBall.position.set(x1, y1, 0);
+droppedBall.position.set(x2, y2, 0);
+
+// Update trace lines
+const tracePoints1 = traceGeometry1.attributes.position.array;
+const tracePoints2 = traceGeometry2.attributes.position.array;
+tracePoints1.push(x1, y1, 0);
+tracePoints2.push(x2, y2, 0);
+traceGeometry1.setAttribute('position', new THREE.Float32BufferAttribute(tracePoints1, 3));
+traceGeometry2.setAttribute('position', new THREE.Float32BufferAttribute(tracePoints2, 3));
+traceGeometry1.attributes.position.needsUpdate = true;
+traceGeometry2.attributes.position.needsUpdate = true;
+
+// Reset animation if balls hit the ground
+if (y1 <= groundY || y2 <= groundY) {
+    time = 0;
+    traceGeometry1.setAttribute('position', new THREE.Float32BufferAttribute([], 3));
+    traceGeometry2.setAttribute('position', new THREE.Float32BufferAttribute([], 3));
+}
+
+requestAnimationFrame(animate);
+}
+animate();

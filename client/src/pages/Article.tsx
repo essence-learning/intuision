@@ -1,4 +1,4 @@
-import { AppShell, Group, Image, Text } from "@mantine/core";
+import { AppShell, Flex, Group, Image, Loader, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "react-router-dom";
 
@@ -52,30 +52,41 @@ const Article: React.FC = () => {
 
   return (
     <AppShell
-      header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
-          <Link to="/" style={{ textDecoration: 'none', display: 'contents' }}>
+      <AppShell.Navbar p="0">
+        <Group h="100%" px="md" mt="4.5px" className="border-b">
+          <Link to="/" style={{ textDecoration: "none", display: "contents" }}>
             <Group>
-              <Image src="../../Logo1.png" h={50} w="auto" alt="Intuision Logo" />
-              <Text size="xl" fw={700}>Intuision</Text>
+              <Image
+                src="../../Logo1.png"
+                h={50}
+                w="auto"
+                alt="Intuision Logo"
+              />
+              <Text size="xl" fw={700}>
+                Intuision
+              </Text>
             </Group>
           </Link>
         </Group>
-      </AppShell.Header>
-      <AppShell.Navbar p="0">
         <ControlPanel onPageSelect={handlePageSelect} />
       </AppShell.Navbar>
 
-      <AppShell.Main>
+      <AppShell.Main pt="0">
         <div>
-          {isLoading && <p>Loading...</p>}
+          {isLoading && !mdxContent && (
+            <Flex w="100%" h="100vh" align="center" justify="center">
+              <Loader />
+            </Flex>
+          )}
           {error && <p className="error">{error}</p>}
           {mdxContent && (
-            <ArticleContent article_id={`${bookName}_${articleId}`} content={mdxContent} />
+            <ArticleContent
+              article_id={`${bookName}_${articleId}`}
+              content={mdxContent}
+            />
           )}
         </div>
       </AppShell.Main>

@@ -222,7 +222,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
 
   return (
     <PanelGroup direction={!screenSmall ? `horizontal` : `vertical`}>
-      <Panel defaultSize={60} minSize={50}>
+      <Panel defaultSize={60} minSize={50} className="pt-3">
         <ScrollArea>
           <Flex
             justify="center"

@@ -6,6 +6,7 @@ export interface IAnim extends Document {
   caption: string;
   blockId: string;
   code: string;
+  orbit: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +34,10 @@ const AnimSchema = new Schema<IAnim>(
       type: String,
       required: true,
       trim: true,
+    },
+    orbit: {
+      type: Boolean,
+      required: true,
     },
     caption: {
       type: String,
