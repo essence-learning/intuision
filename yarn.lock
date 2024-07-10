@@ -957,6 +957,18 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.18.0.tgz#5d694d345ce36b6ecf657349e03eb87297e68da4"
   integrity sha512-UOo5FdvOL0+eIVTgS4tIdbW+TtnBLWg1YBCcU2KWM7nuNwRz9bksDX1bekJJCpu25N1DVWaCwnT39dVQxzqS8g==
 
+"@tabler/icons-react@^3.10.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.10.0.tgz#5d6f1cd24835244d1b9c8e64a118607cd46e4f06"
+  integrity sha512-FTES0wJLIV+M9Ggng0j/6Kn/j43ZuBukR5n6DNV8Npk4woPCDcRjA+2KzKQyvSdwtPMAM6o1e8fQBPDS337Spg==
+  dependencies:
+    "@tabler/icons" "3.10.0"
+
+"@tabler/icons@3.10.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.10.0.tgz#0ec08c58419c731b71517c7fa76b113774bdb7b8"
+  integrity sha512-jCMO+hDTw8Gn1CNb15zIENLQ9b0UplGXtjMnEUhDoKH+Q4fta8tBLUxZpPpFtpV+q+gzGqfM76xNAoD1GBpmnA==
+
 "@tailwindcss/typography@^0.5.13":
   version "0.5.13"
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.5.13.tgz#cd788a4fa4d0ca2506e242d512f377b22c1f7932"
