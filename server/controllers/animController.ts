@@ -3,7 +3,7 @@ import AnimService from "../services/animService";
 
 export const getAnimation = async (req: Request, res: Response) => {
   try {
-    const blockId = req.query.blockId as string;
+    const { blockId, selectedText, pageId } = req.body;
     const animData = await AnimService.getAnimation(blockId);
     if (animData) {
       console.log("SUCCESS");
@@ -11,12 +11,19 @@ export const getAnimation = async (req: Request, res: Response) => {
         exists: true,
         code: animData.code,
         caption: animData.caption,
+        orbit: animData.orbit,
       });
     } else {
+      const genData = await AnimService.generateAnimation(
+        blockId,
+        selectedText,
+        pageId,
+      );
       res.json({
-        exists: false,
-        code: "",
-        caption: "",
+        exists: genData.code.length > 0,
+        code: genData.code,
+        caption: genData.caption,
+        orbit: genData.orbit,
       });
     }
   } catch (error) {
@@ -32,7 +39,12 @@ export const generateAnimation = async (req: Request, res: Response) => {
       selectedText,
       pageId,
     );
-    res.json({ exists: true, animCode: animCode });
+    res.json({
+      exists: true,
+      animCode: animCode,
+      caption: animCode.caption,
+      orbit: animCode.orbit,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to send message" });
   }

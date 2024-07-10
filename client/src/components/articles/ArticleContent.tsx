@@ -18,7 +18,7 @@ import ChatBot from "../ChatBot";
 import { ChevronsLeft, GripVertical, Plus } from "lucide-react";
 import Scene from "./scene/Scene";
 
-import MemoizedArticleBlock from './ArticleBlock';
+import MemoizedArticleBlock from "./ArticleBlock";
 
 // import Scene from "./Scene";
 
@@ -27,21 +27,26 @@ interface ArticleContentProps {
   content?: string;
 }
 
-
-const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) => {
-  const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
+const ArticleContent: React.FC<ArticleContentProps> = ({
+  article_id,
+  content,
+}) => {
+  const [Component, setComponent] = React.useState<React.ComponentType | null>(
+    null,
+  );
 
   useEffect(() => {
     if (content) {
       try {
         const { code } = JSON.parse(content);
         const MDXComponent = getMDXComponent(code);
-
         const WrappedComponent = React.memo((props) => {
           const paragraphCountRef = React.useRef(0);
           const CustomP = ({ children }) => {
             const block_id = `${article_id}_${paragraphCountRef.current++}`;
-            return <MemoizedArticleBlock block_id={block_id} children={children} />;
+            return (
+              <MemoizedArticleBlock block_id={block_id} children={children} />
+            );
           };
 
           React.useLayoutEffect(() => {
@@ -53,7 +58,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
               components={{
                 p: React.memo(CustomP),
                 ul: React.memo(CustomP),
-                ...props.components
+                ...props.components,
               }}
               {...props}
             />
@@ -154,9 +159,9 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
     if (selection && selection.toString().trim().length > 0) {
       const selectedElement = selection.anchorNode?.parentElement;
       if (selectedElement) {
-        const articleBlock = selectedElement.closest('.hoverable-box');
+        const articleBlock = selectedElement.closest(".hoverable-box");
         if (articleBlock) {
-          const id = articleBlock.getAttribute('id');
+          const id = articleBlock.getAttribute("id");
           if (id) {
             setBlockId(id);
             console.log("set block id: ", id);
@@ -182,8 +187,6 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
       }
 
       // Adjust for scroll position
-
-      setSelectedText(selection.toString());
       setSelectionCoords({
         x: x,
         y: y,
@@ -219,7 +222,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
 
   return (
     <PanelGroup direction={!screenSmall ? `horizontal` : `vertical`}>
-      <Panel defaultSize={60} minSize={50}>
+      <Panel defaultSize={60} minSize={50} className="pt-3">
         <ScrollArea>
           <Flex
             justify="center"
@@ -251,7 +254,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
                       setChatBotPrior(selectedText);
                       setShowComments(false);
                     }}
-                    onHighlight={() => { }}
+                    onHighlight={() => {}}
                     onVisualize={() => {
                       setShowPopup(false);
                       setShowScene(true);
@@ -305,16 +308,16 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
               style={
                 !screenSmall
                   ? {
-                    position: "fixed",
-                    top: "24px",
-                    height: "94vh",
-                    //resizing chat window if it goes to small screen
-                    width: ` calc((100vw - 350px) * ${chatPanelWidth / 100})`,
-                  }
+                      position: "fixed",
+                      top: "24px",
+                      height: "94vh",
+                      //resizing chat window if it goes to small screen
+                      width: ` calc((100vw - 350px) * ${chatPanelWidth / 100})`,
+                    }
                   : {
-                    position: "relative",
-                    width: "100%",
-                  }
+                      position: "relative",
+                      width: "100%",
+                    }
               }
             >
               {showScene ? (

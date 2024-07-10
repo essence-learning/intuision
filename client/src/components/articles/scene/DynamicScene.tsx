@@ -4,9 +4,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 interface DynamicSceneProps {
   code: string;
+  orbitControls: boolean;
 }
 
-const DynamicScene: React.FC<DynamicSceneProps> = ({ code }) => {
+const DynamicScene: React.FC<DynamicSceneProps> = ({ code, orbitControls }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -38,16 +39,18 @@ const DynamicScene: React.FC<DynamicSceneProps> = ({ code }) => {
     containerRef.current.appendChild(renderer.domElement);
 
     // Set up OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = orbitControls
+      ? new OrbitControls(camera, renderer.domElement)
+      : null;
 
-    // Execute the dynamic scene code
+    // Execute the dynamic scene code: THIS IS THE PLACE WHERE THE CODE YOU WRITE WILL BE EXECUTED, as "code"
     const setupScene = new Function("THREE", "scene", "camera", code);
     setupScene(THREE, scene, camera);
 
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      controls.update();
+      if (orbitControls) controls.update();
       renderer.render(scene, camera);
     };
     animate();
