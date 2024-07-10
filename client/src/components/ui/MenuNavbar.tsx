@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   IconBellRinging,
   IconSchool,
@@ -8,31 +7,28 @@ import {
   IconLogout,
 } from '@tabler/icons-react';
 import classes from './MenuNavbar.module.css';
+import { Link, useLocation } from 'react-router-dom';
 
 const data = [
+  { link: '/textbooks', label: 'My Books', icon: IconBook },
+  { link: '/courses', label: 'Courses', icon: IconSchool },
   { link: '', label: 'Notifications', icon: IconBellRinging },
-  { link: '', label: 'Courses', icon: IconSchool },
-  { link: '', label: 'Textbooks', icon: IconBook },
   { link: '', label: 'Settings', icon: IconSettings },
 ];
 
 export function MenuNavbar() {
-  const [active, setActive] = useState('Billing');
+  const location = useLocation();
 
   const links = data.map((item) => (
-    <a
+    <Link
       className={classes.link}
-      data-active={item.label === active || undefined}
-      href={item.link}
+      data-active={location.pathname === item.link || undefined}
+      to={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </Link>
   ));
 
   return (

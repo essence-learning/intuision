@@ -1,5 +1,6 @@
-import { AppShell } from "@mantine/core";
+import { AppShell, Group, Image, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Link } from "react-router-dom";
 
 import ArticleContent from "@/components/articles/ArticleContent";
 import ControlPanel from "@/components/articles/ControlPanel";
@@ -49,14 +50,25 @@ const Article: React.FC = () => {
 
   return (
     <AppShell
+      header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Link to="/" style={{ textDecoration: 'none', display: 'contents' }}>
+            <Group>
+              <Image src="../../Logo1.png" h={50} w="auto" alt="Intuision Logo" />
+              <Text size="xl" fw={700}>Intuision</Text>
+            </Group>
+          </Link>
+        </Group>
+      </AppShell.Header>
       <AppShell.Navbar p="0">
         <ControlPanel onPageSelect={handlePageSelect} />
       </AppShell.Navbar>
 
-      <AppShell.Main pt="0" pr="0">
+      <AppShell.Main>
         <div>
           {isLoading && <p>Loading...</p>}
           {error && <p className="error">{error}</p>}
