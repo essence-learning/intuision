@@ -1,0 +1,983 @@
+{
+    "title": "Astronomy 2e",
+    "pages": [
+        {
+            "id": "m63293",
+            "title": "Preface"
+        },
+        {
+            "id": "m59991",
+            "title": "How to Study for an Introductory Astronomy Class"
+        },
+        {
+            "id": "m59994",
+            "title": "Astronomy Websites, Images, and Apps"
+        },
+        {
+            "id": "m59995",
+            "title": "Scientific Notation"
+        },
+        {
+            "id": "m59996",
+            "title": "Units Used in Science"
+        },
+        {
+            "id": "m59997",
+            "title": "Some Useful Constants for Astronomy"
+        },
+        {
+            "id": "m59998",
+            "title": "Physical and Orbital Data for the Planets"
+        },
+        {
+            "id": "m59999",
+            "title": "Selected Moons of the Planets"
+        },
+        {
+            "id": "m60000",
+            "title": "Future Total Eclipses"
+        },
+        {
+            "id": "m60002",
+            "title": "The Nearest Stars, Brown Dwarfs, and White Dwarfs"
+        },
+        {
+            "id": "m60003",
+            "title": "The Brightest Twenty Stars"
+        },
+        {
+            "id": "m60004",
+            "title": "The Chemical Elements"
+        },
+        {
+            "id": "m60005",
+            "title": "The Constellations"
+        },
+        {
+            "id": "m60006",
+            "title": "Star Chart and Sky Event Resources"
+        }
+    ],
+    "subsections": [
+        {
+            "title": "Science and the Universe: A Brief Tour",
+            "pages": [
+                {
+                    "id": "m59743",
+                    "title": "Introduction"
+                },
+                {
+                    "id": "m59747",
+                    "title": "The Nature of Astronomy"
+                },
+                {
+                    "id": "m59755",
+                    "title": "The Nature of Science"
+                },
+                {
+                    "id": "m59750",
+                    "title": "The Laws of Nature"
+                },
+                {
+                    "id": "m59751",
+                    "title": "Numbers in Astronomy"
+                },
+                {
+                    "id": "m59752",
+                    "title": "Consequences of Light Travel Time"
+                },
+                {
+                    "id": "m59753",
+                    "title": "A Tour of the Universe"
+                },
+                {
+                    "id": "m59754",
+                    "title": "The Universe on the Large Scale"
+                },
+                {
+                    "id": "m59760",
+                    "title": "The Universe of the Very Small"
+                },
+                {
+                    "id": "m59762",
+                    "title": "A Conclusion and a Beginning"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Observing the Sky: The Birth of Astronomy",
+            "pages": [
+                {
+                    "id": "m59769",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59770",
+                    "title": "The Sky Above"
+                },
+                {
+                    "id": "m59763",
+                    "title": "Ancient Astronomy"
+                },
+                {
+                    "id": "m59772",
+                    "title": "Astrology and Astronomy"
+                },
+                {
+                    "id": "m59765",
+                    "title": "The Birth of Modern Astronomy"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Orbits and Gravity",
+            "pages": [
+                {
+                    "id": "m59773",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59775",
+                    "title": "The Laws of Planetary Motion"
+                },
+                {
+                    "id": "m59776",
+                    "title": "Newton\u2019s Great Synthesis"
+                },
+                {
+                    "id": "m59777",
+                    "title": "Newton\u2019s Universal Law of Gravitation"
+                },
+                {
+                    "id": "m59778",
+                    "title": "Orbits in the Solar System"
+                },
+                {
+                    "id": "m59779",
+                    "title": "Motions of Satellites and Spacecraft"
+                },
+                {
+                    "id": "m59780",
+                    "title": "Gravity with More Than Two Bodies"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Earth, Moon, and Sky",
+            "pages": [
+                {
+                    "id": "m59781",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59783",
+                    "title": "Earth and Sky"
+                },
+                {
+                    "id": "m59785",
+                    "title": "The Seasons"
+                },
+                {
+                    "id": "m59786",
+                    "title": "Keeping Time"
+                },
+                {
+                    "id": "m59787",
+                    "title": "The Calendar"
+                },
+                {
+                    "id": "m59788",
+                    "title": "Phases and Motions of the Moon"
+                },
+                {
+                    "id": "m59789",
+                    "title": "Ocean Tides and the Moon"
+                },
+                {
+                    "id": "m59790",
+                    "title": "Eclipses of the Sun and Moon"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Radiation and Spectra",
+            "pages": [
+                {
+                    "id": "m59791",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59792",
+                    "title": "The Behavior of Light"
+                },
+                {
+                    "id": "m59798",
+                    "title": "The Electromagnetic Spectrum"
+                },
+                {
+                    "id": "m59793",
+                    "title": "Spectroscopy in Astronomy"
+                },
+                {
+                    "id": "m59794",
+                    "title": "The Structure of the Atom"
+                },
+                {
+                    "id": "m59795",
+                    "title": "Formation of Spectral Lines"
+                },
+                {
+                    "id": "m59799",
+                    "title": "The Doppler Effect"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Astronomical Instruments",
+            "pages": [
+                {
+                    "id": "m59802",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59803",
+                    "title": "Telescopes"
+                },
+                {
+                    "id": "m59805",
+                    "title": "Telescopes Today"
+                },
+                {
+                    "id": "m59821",
+                    "title": "Visible-Light Detectors and Instruments"
+                },
+                {
+                    "id": "m59809",
+                    "title": "Radio Telescopes"
+                },
+                {
+                    "id": "m59811",
+                    "title": "Observations outside Earth\u2019s Atmosphere"
+                },
+                {
+                    "id": "m59812",
+                    "title": "The Future of Large Telescopes"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Other Worlds: An Introduction to the Solar System",
+            "pages": [
+                {
+                    "id": "m59814",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59816",
+                    "title": "Overview of Our Planetary System"
+                },
+                {
+                    "id": "m59819",
+                    "title": "Composition and Structure of Planets"
+                },
+                {
+                    "id": "m59820",
+                    "title": "Dating Planetary Surfaces"
+                },
+                {
+                    "id": "m59823",
+                    "title": "Origin of the Solar System"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Earth as a Planet",
+            "pages": [
+                {
+                    "id": "m59824",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59825",
+                    "title": "The Global Perspective"
+                },
+                {
+                    "id": "m59826",
+                    "title": "Earth\u2019s Crust"
+                },
+                {
+                    "id": "m59827",
+                    "title": "Earth\u2019s Atmosphere"
+                },
+                {
+                    "id": "m59828",
+                    "title": "Life, Chemical Evolution, and Climate Change"
+                },
+                {
+                    "id": "m59829",
+                    "title": "Cosmic Influences on the Evolution of Earth"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Cratered Worlds",
+            "pages": [
+                {
+                    "id": "m59830",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59831",
+                    "title": "General Properties of the Moon"
+                },
+                {
+                    "id": "m59832",
+                    "title": "The Lunar Surface"
+                },
+                {
+                    "id": "m59833",
+                    "title": "Impact Craters"
+                },
+                {
+                    "id": "m59834",
+                    "title": "The Origin of the Moon"
+                },
+                {
+                    "id": "m59835",
+                    "title": "Mercury"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Earthlike Planets: Venus and Mars",
+            "pages": [
+                {
+                    "id": "m59836",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59845",
+                    "title": "The Nearest Planets: An Overview"
+                },
+                {
+                    "id": "m59838",
+                    "title": "The Geology of Venus"
+                },
+                {
+                    "id": "m59840",
+                    "title": "The Massive Atmosphere of Venus"
+                },
+                {
+                    "id": "m59843",
+                    "title": "The Geology of Mars"
+                },
+                {
+                    "id": "m59856",
+                    "title": "Water and Life on Mars"
+                },
+                {
+                    "id": "m59847",
+                    "title": "Divergent Planetary Evolution"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Giant Planets",
+            "pages": [
+                {
+                    "id": "m59850",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59853",
+                    "title": "Exploring the Outer Planets"
+                },
+                {
+                    "id": "m59858",
+                    "title": "The Giant Planets"
+                },
+                {
+                    "id": "m59859",
+                    "title": "Atmospheres of the Giant Planets"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Rings, Moons, and Pluto",
+            "pages": [
+                {
+                    "id": "m59860",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59861",
+                    "title": "Ring and Moon Systems Introduced"
+                },
+                {
+                    "id": "m59862",
+                    "title": "The Galilean Moons of Jupiter"
+                },
+                {
+                    "id": "m59863",
+                    "title": "Titan and Triton"
+                },
+                {
+                    "id": "m59864",
+                    "title": "Pluto and Charon"
+                },
+                {
+                    "id": "m62178",
+                    "title": "Planetary Rings (and Enceladus)"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Comets and Asteroids: Debris of the Solar System",
+            "pages": [
+                {
+                    "id": "m59865",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59866",
+                    "title": "Asteroids"
+                },
+                {
+                    "id": "m59867",
+                    "title": "Asteroids and Planetary Defense"
+                },
+                {
+                    "id": "m59868",
+                    "title": "The \u201cLong-Haired\u201d Comets"
+                },
+                {
+                    "id": "m59869",
+                    "title": "The Origin and Fate of Comets and Related Objects"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Cosmic Samples and the Origin of the Solar System",
+            "pages": [
+                {
+                    "id": "m59870",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59871",
+                    "title": "Meteors"
+                },
+                {
+                    "id": "m59872",
+                    "title": "Meteorites: Stones from Heaven"
+                },
+                {
+                    "id": "m59873",
+                    "title": "Formation of the Solar System"
+                },
+                {
+                    "id": "m59874",
+                    "title": "Comparison with Other Planetary Systems"
+                },
+                {
+                    "id": "m59875",
+                    "title": "Planetary Evolution"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Sun: A Garden-Variety Star",
+            "pages": [
+                {
+                    "id": "m59876",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59877",
+                    "title": "The Structure and Composition of the Sun"
+                },
+                {
+                    "id": "m59878",
+                    "title": "The Solar Cycle"
+                },
+                {
+                    "id": "m59879",
+                    "title": "Solar Activity above the Photosphere"
+                },
+                {
+                    "id": "m59884",
+                    "title": "Space Weather"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Sun: A Nuclear Powerhouse",
+            "pages": [
+                {
+                    "id": "m59880",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59895",
+                    "title": "Sources of Sunshine: Thermal and Gravitational Energy"
+                },
+                {
+                    "id": "m59886",
+                    "title": "Mass, Energy, and the Theory of Relativity"
+                },
+                {
+                    "id": "m59887",
+                    "title": "The Solar Interior: Theory"
+                },
+                {
+                    "id": "m59888",
+                    "title": "The Solar Interior: Observations"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Analyzing Starlight",
+            "pages": [
+                {
+                    "id": "m59889",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59890",
+                    "title": "The Brightness of Stars"
+                },
+                {
+                    "id": "m59891",
+                    "title": "Colors of Stars"
+                },
+                {
+                    "id": "m59892",
+                    "title": "The Spectra of Stars (and Brown Dwarfs)"
+                },
+                {
+                    "id": "m59896",
+                    "title": "Using Spectra to Measure Stellar Radius, Composition, and Motion"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Stars: A Celestial Census",
+            "pages": [
+                {
+                    "id": "m59897",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59898",
+                    "title": "A Stellar Census"
+                },
+                {
+                    "id": "m59899",
+                    "title": "Measuring Stellar Masses"
+                },
+                {
+                    "id": "m59900",
+                    "title": "Diameters of Stars"
+                },
+                {
+                    "id": "m59901",
+                    "title": "The H\u2013R Diagram"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Celestial Distances",
+            "pages": [
+                {
+                    "id": "m59902",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59904",
+                    "title": "Fundamental Units of Distance"
+                },
+                {
+                    "id": "m59905",
+                    "title": "Surveying the Stars"
+                },
+                {
+                    "id": "m59906",
+                    "title": "Variable Stars: One Key to Cosmic Distances"
+                },
+                {
+                    "id": "m59907",
+                    "title": "The H\u2013R Diagram and Cosmic Distances"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Between the Stars: Gas and Dust in Space",
+            "pages": [
+                {
+                    "id": "m59908",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59909",
+                    "title": "The Interstellar Medium"
+                },
+                {
+                    "id": "m59910",
+                    "title": "Interstellar Gas"
+                },
+                {
+                    "id": "m59911",
+                    "title": "Cosmic Dust"
+                },
+                {
+                    "id": "m59912",
+                    "title": "Cosmic Rays"
+                },
+                {
+                    "id": "m59913",
+                    "title": "The Life Cycle of Cosmic Material"
+                },
+                {
+                    "id": "m59914",
+                    "title": "Interstellar Matter around the Sun"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Birth of Stars and the Discovery of Planets outside the Solar System",
+            "pages": [
+                {
+                    "id": "m59915",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59923",
+                    "title": "Star Formation"
+                },
+                {
+                    "id": "m59918",
+                    "title": "The H\u2013R Diagram and the Study of Stellar Evolution"
+                },
+                {
+                    "id": "m59920",
+                    "title": "Evidence That Planets Form around Other Stars"
+                },
+                {
+                    "id": "m59921",
+                    "title": "Planets beyond the Solar System: Search and Discovery"
+                },
+                {
+                    "id": "m62183",
+                    "title": "Exoplanets Everywhere: What We Are Learning"
+                },
+                {
+                    "id": "m62187",
+                    "title": "New Perspectives on Planet Formation"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Stars from Adolescence to Old Age",
+            "pages": [
+                {
+                    "id": "m59924",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59925",
+                    "title": "Evolution from the Main Sequence to Red Giants"
+                },
+                {
+                    "id": "m59926",
+                    "title": "Star Clusters"
+                },
+                {
+                    "id": "m59927",
+                    "title": "Checking Out the Theory"
+                },
+                {
+                    "id": "m59928",
+                    "title": "Further Evolution of Stars"
+                },
+                {
+                    "id": "m59930",
+                    "title": "The Evolution of More Massive Stars"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Death of Stars",
+            "pages": [
+                {
+                    "id": "m59931",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59932",
+                    "title": "The Death of Low-Mass Stars"
+                },
+                {
+                    "id": "m59933",
+                    "title": "Evolution of Massive Stars: An Explosive Finish"
+                },
+                {
+                    "id": "m59934",
+                    "title": "Supernova Observations"
+                },
+                {
+                    "id": "m59935",
+                    "title": "Pulsars and the Discovery of Neutron Stars"
+                },
+                {
+                    "id": "m59936",
+                    "title": "The Evolution of Binary Star Systems"
+                },
+                {
+                    "id": "m59937",
+                    "title": "The Mystery of the Gamma-Ray Bursts"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Black Holes and Curved Spacetime",
+            "pages": [
+                {
+                    "id": "m59938",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59939",
+                    "title": "Introducing General Relativity"
+                },
+                {
+                    "id": "m59940",
+                    "title": "Spacetime and Gravity"
+                },
+                {
+                    "id": "m59941",
+                    "title": "Tests of General Relativity"
+                },
+                {
+                    "id": "m59942",
+                    "title": "Time in General Relativity"
+                },
+                {
+                    "id": "m59943",
+                    "title": "Black Holes"
+                },
+                {
+                    "id": "m59944",
+                    "title": "Evidence for Black Holes"
+                },
+                {
+                    "id": "m59945",
+                    "title": "Gravitational Wave Astronomy"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Milky Way Galaxy",
+            "pages": [
+                {
+                    "id": "m59947",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59948",
+                    "title": "The Architecture of the Galaxy"
+                },
+                {
+                    "id": "m59954",
+                    "title": "Spiral Structure"
+                },
+                {
+                    "id": "m59950",
+                    "title": "The Mass of the Galaxy"
+                },
+                {
+                    "id": "m59951",
+                    "title": "The Center of the Galaxy"
+                },
+                {
+                    "id": "m59952",
+                    "title": "Stellar Populations in the Galaxy"
+                },
+                {
+                    "id": "m59955",
+                    "title": "The Formation of the Galaxy"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Galaxies",
+            "pages": [
+                {
+                    "id": "m59956",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59964",
+                    "title": "The Discovery of Galaxies"
+                },
+                {
+                    "id": "m59958",
+                    "title": "Types of Galaxies"
+                },
+                {
+                    "id": "m59959",
+                    "title": "Properties of Galaxies"
+                },
+                {
+                    "id": "m59960",
+                    "title": "The Extragalactic Distance Scale"
+                },
+                {
+                    "id": "m62195",
+                    "title": "The Expanding Universe"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Active Galaxies, Quasars, and Supermassive Black Holes",
+            "pages": [
+                {
+                    "id": "m59961",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59962",
+                    "title": "Quasars"
+                },
+                {
+                    "id": "m59965",
+                    "title": "Supermassive Black Holes: What Quasars Really Are"
+                },
+                {
+                    "id": "m59966",
+                    "title": "Quasars as Probes of Evolution in the Universe"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Evolution and Distribution of Galaxies",
+            "pages": [
+                {
+                    "id": "m59969",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59970",
+                    "title": "Observations of Distant Galaxies"
+                },
+                {
+                    "id": "m59971",
+                    "title": "Galaxy Mergers and Active Galactic Nuclei"
+                },
+                {
+                    "id": "m59972",
+                    "title": "The Distribution of Galaxies in Space"
+                },
+                {
+                    "id": "m59973",
+                    "title": "The Challenge of Dark Matter"
+                },
+                {
+                    "id": "m59974",
+                    "title": "The Formation and Evolution of Galaxies and Structure in the Universe"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "The Big Bang",
+            "pages": [
+                {
+                    "id": "m59975",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59976",
+                    "title": "The Age of the Universe"
+                },
+                {
+                    "id": "m59977",
+                    "title": "A Model of the Universe"
+                },
+                {
+                    "id": "m59978",
+                    "title": "The Beginning of the Universe"
+                },
+                {
+                    "id": "m59979",
+                    "title": "The Cosmic Microwave Background"
+                },
+                {
+                    "id": "m59980",
+                    "title": "What Is the Universe Really Made Of?"
+                },
+                {
+                    "id": "m59981",
+                    "title": "The Inflationary Universe"
+                },
+                {
+                    "id": "m59982",
+                    "title": "The Anthropic Principle"
+                }
+            ],
+            "subsections": []
+        },
+        {
+            "title": "Life in the Universe",
+            "pages": [
+                {
+                    "id": "m59984",
+                    "title": "Thinking Ahead"
+                },
+                {
+                    "id": "m59988",
+                    "title": "The Cosmic Context for Life"
+                },
+                {
+                    "id": "m59989",
+                    "title": "Astrobiology"
+                },
+                {
+                    "id": "m59990",
+                    "title": "Searching for Life beyond Earth"
+                },
+                {
+                    "id": "m59993",
+                    "title": "The Search for Extraterrestrial Intelligence"
+                }
+            ],
+            "subsections": []
+        }
+    ]
+}

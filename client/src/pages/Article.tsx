@@ -35,8 +35,10 @@ const Article: React.FC = () => {
       setBookName(bookName);
       const content = await response.json();
       setMdxContent(JSON.stringify(content));
+      console.log('Loaded successfully');
     } catch (err) {
-      setError("Failed to load article");
+      console.log(err);
+      setError("");
     } finally {
       setIsLoading(false);
     }

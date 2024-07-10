@@ -24,7 +24,7 @@ const Home = () => {
     title: 'Astronomy 2e',
     source: 'OpenStax',
     description: 'Designed to meet the scope and sequence of your course, Astronomy 2e is written in clear non-technical language, with the occasional touch of humor and a wide range of clarifying illustrations.',
-    link: '/book/Astronomy2e',
+    link: '/book/Astronomy 2e',
   };
 
   const microbiologyData: BookData = {
