@@ -13,10 +13,16 @@ import DynamicScene from "./DynamicScene";
 interface SceneProps {
   in_article: boolean;
   blockId: string;
+  selectedText: string;
   onClose: () => void;
 }
 
-const Scene: React.FC<SceneProps> = ({ in_article, blockId, onClose }) => {
+const Scene: React.FC<SceneProps> = ({
+  in_article,
+  blockId,
+  selectedText,
+  onClose,
+}) => {
   const [caption, setCaption] = useState("");
   const [sceneCode, setSceneCode] = useState("");
   const [orbitControls, setOrbitControls] = useState(true);
@@ -29,7 +35,7 @@ const Scene: React.FC<SceneProps> = ({ in_article, blockId, onClose }) => {
       },
       body: JSON.stringify({
         blockId: blockId,
-        selectedText: "asf",
+        selectedText: selectedText,
         pageId: "asdf",
       }),
     })

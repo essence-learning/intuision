@@ -3,6 +3,7 @@ import AnimService from "../services/animService";
 
 export const getAnimation = async (req: Request, res: Response) => {
   try {
+    console.log("im getting stuff!");
     const { blockId, selectedText, pageId } = req.body;
     const animData = await AnimService.getAnimation(blockId);
     if (animData) {
@@ -14,6 +15,7 @@ export const getAnimation = async (req: Request, res: Response) => {
         orbit: animData.orbit,
       });
     } else {
+      console.log("generating now...");
       const genData = await AnimService.generateAnimation(
         blockId,
         selectedText,

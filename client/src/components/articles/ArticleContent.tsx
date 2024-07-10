@@ -324,6 +324,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
                 <Scene
                   in_article={false}
                   blockId={blockId}
+                  selectedText={selectedText}
                   onClose={() => {
                     setShowScene(false);
                   }}
