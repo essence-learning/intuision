@@ -7,7 +7,6 @@ import {
   Button,
   Group,
   Flex,
-  Combobox,
   useMantineTheme,
   Textarea,
   CloseButton,
@@ -28,8 +27,6 @@ interface ChatBotProps {
   priorText?: string;
   onClose: () => void;
 }
-
-//TODO: disgusting style -- fix it.
 
 const ChatBot: React.FC<ChatBotProps> = ({ propId, priorText, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);

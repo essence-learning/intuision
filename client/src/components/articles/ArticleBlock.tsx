@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Text } from '@mantine/core';
-import './ArticleBlock.css';
+import React from "react";
+import { Box, Text } from "@mantine/core";
+import "./ArticleBlock.css";
 
 interface ArticleBlockProps {
   children: React.ReactNode;

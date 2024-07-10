@@ -18,7 +18,7 @@ import ChatBot from "../ChatBot";
 import { ChevronsLeft, GripVertical, Plus } from "lucide-react";
 import Scene from "./scene/Scene";
 
-import ArticleBlock from './ArticleBlock';
+import ArticleBlock from "./ArticleBlock";
 
 // import Scene from "./Scene";
 
@@ -27,16 +27,20 @@ interface ArticleContentProps {
   content?: string;
 }
 
-
-const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) => {
-  const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
+const ArticleContent: React.FC<ArticleContentProps> = ({
+  article_id,
+  content,
+}) => {
+  const [Component, setComponent] = React.useState<React.ComponentType | null>(
+    null,
+  );
 
   React.useEffect(() => {
     if (content) {
       try {
         const { code } = JSON.parse(content);
         const MDXComponent = getMDXComponent(code);
-        
+
         const WrappedComponent = (props) => {
           const paragraphCountRef = React.useRef(0);
 
@@ -54,7 +58,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
               components={{
                 p: CustomP,
                 ul: CustomP,
-                ...props.components
+                ...props.components,
               }}
               {...props}
             />
@@ -170,8 +174,6 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article_id, content }) 
       }
 
       // Adjust for scroll position
-
-      setSelectedText(selection.toString());
       setSelectionCoords({
         x: x,
         y: y,
