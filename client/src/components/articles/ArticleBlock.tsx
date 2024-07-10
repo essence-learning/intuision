@@ -8,17 +8,15 @@ interface ArticleBlockProps {
 }
 
 const ArticleBlock: React.FC<ArticleBlockProps> = React.memo(({ children, block_id }) => {
+  const selectionRef = useRef({ text: '', coords: { x: 0, y: 0 }, blockId: '' });
   return (
-    // <Button
-    //   className="hoverable-button"
-    //   variant="subtle"
-    // >
     <Box className="hoverable-box" id={block_id}>
       <Text>{children}</Text>
       <Text>{block_id}</Text>
     </Box>
-    // </Button>
   );
 });
 
-export default ArticleBlock;
+const MemoizedArticleBlock = React.memo(ArticleBlock);
+
+export default MemoizedArticleBlock;
