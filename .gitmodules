@@ -1,3 +1,6 @@
 [submodule "client/public/book-data"]
 	path = client/public/book-data
 	url = https://github.com/essence-learning/book-data.git
+[submodule "server/books/Physics"]
+	path = server/books/Physics
+	url = https://github.com/essence-learning/osbooks-physics
