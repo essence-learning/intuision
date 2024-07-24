@@ -43,8 +43,8 @@ class TextService {
         const newConversation = new Conversation({
           systemPrompt:
             selectedText && selectedText.length > 0
-              ? `You are a helpful physics assistant ready to answer questions and provide alternate explanations for students. Please respond in english and include any necessary equations in LaTeX. The following conversations may refer to this text that the user selected: ${selectedText}. If they ask a question which appears to lack context, please use this prior text that was just provided. Please do not make any mention of "selected text" to the user.`
-              : `You are a helpful physics assistant ready to answer questions and provide alternate explanations for students. Please respond in english and include any necessary equations in LaTeX.`,
+              ? `You are a helpful physics assistant ready to answer questions and provide concise alternate explanations for students. Please respond in english and include any necessary equations in LaTeX. Make sure to enclose inline latex in single $ symbols. The following conversations may refer to this text that the user selected: ${selectedText}. If they ask a question which appears to lack context, please use this prior text that was just provided. Please do not make any mention of "selected text" to the user.`
+              : `You are a helpful physics assistant ready to answer questions and provide concise alternate explanations for students. Please respond in english and include any necessary equations in LaTeX. Make sure to enclose inline latex in single $ symbols.`,
           messages: [],
         });
         await newConversation.save();
@@ -65,7 +65,7 @@ class TextService {
         console.log("Conversation:", conversation.messages);
 
         const response = await anthropic.messages.create({
-          model: "claude-3-haiku-20240307",
+          model: "claude-3-5-sonnet-20240620",
           max_tokens: 1000,
           temperature: 0,
           system: conversation.systemPrompt,
