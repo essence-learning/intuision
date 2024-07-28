@@ -3,14 +3,10 @@ import { useParams } from "react-router-dom";
 import { Group, ScrollArea, NavLink } from "@mantine/core";
 import classes from "./ControlPanel.module.css";
 
-interface Page {
-  id: string;
-  title: string;
-}
-
 interface BookLayer {
+  is_page: boolean;
   title: string;
-  pages: Page[];
+  id: string;
   subsections: BookLayer[];
 }
 
@@ -35,36 +31,31 @@ const LinksGroup: React.FC<LinksGroupProps> = ({
 }) => {
   const [opened, setOpened] = useState(false);
 
-  const pageLinks = data.pages.map((page) => {
-    return (
-      <NavLink
-        key={`${page.title}`}
-        label={`${page.title}`}
-        className={isTopLevel ? classes.topLevelLink : classes.pageLink}
-        onClick={() => onPageSelect(bookName, page.id)}
-      />
-    );
-  });
-
-  const subLinks = data.subsections.map((sub) => {
-    return (
-      <LinksGroup
-        key={`${bookName}`}
-        data={sub}
-        shift={shift + 1}
-        bookName={bookName}
-        onPageSelect={onPageSelect}
-      />
-    );
-  });
+  const children = data.subsections.map((layer) => {
+    if (layer.is_page) {
+      return (
+        <NavLink
+          key={`${layer.id}`}
+          label={`${layer.title}`}
+          className={isTopLevel ? classes.topLevelLink : classes.pageLink}
+          onClick={() => onPageSelect(bookName, layer.id)}
+        />
+      );
+    } else {
+      return (
+        <LinksGroup
+          key={`${layer.title}`}
+          data={layer}
+          shift={shift + 1}
+          bookName={bookName}
+          onPageSelect={onPageSelect}
+        />
+      );
+    }
+  })
 
   if (isTopLevel) {
-    return (
-      <>
-        {pageLinks}
-        {subLinks}
-      </>
-    );
+    return children;
   }
 
   return (
@@ -75,8 +66,7 @@ const LinksGroup: React.FC<LinksGroupProps> = ({
       fw="bold"
       className={classes.sectionLink}
     >
-      {pageLinks}
-      {subLinks}
+      {children}
     </NavLink>
   );
 };
@@ -102,7 +92,7 @@ export function ControlPanel({ onPageSelect }: ControlPanelProps) {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          <h1>{bookName.charAt(0).toUpperCase() + bookName.slice(1)}</h1>
+          <h1>{book.title}</h1>
         </Group>
       </div>
       <ScrollArea className={classes.links} p="sm">
