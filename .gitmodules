@@ -1,0 +1,3 @@
+[submodule "server/books/physics"]
+	path = server/books/physics
+	url = https://github.com/essence-learning/osbooks-physics
