@@ -16,7 +16,7 @@ const Home = () => {
     title: 'Physics',
     source: 'OpenStax',
     description: 'Beginning with an introduction to physics and scientific processes and followed by chapters focused on motion, mechanics, thermodynamics, waves, and light, this book incorporates a variety of tools to engage and inspire students',
-    link: '/book/Physics',
+    link: '/book/physics',
   };
 
   const astronomyData: BookData = {

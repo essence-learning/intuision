@@ -33,7 +33,7 @@ interface ArticleContentProps {
 
 const CustomImage = ({ src, alt }) => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
-    <Image radius="md" src={src} alt={alt} h="auto" w="auto" />
+    <Image radius="md" src={src} alt={alt.split('__ALT__')[0]} id={alt.split('__ALT__')[1]} h="auto" w="auto" />
   </div>
 );
 
